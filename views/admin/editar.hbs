@@ -1,0 +1,126 @@
+<div class="conteiner-back">
+    <a class="back" href="/inicio">Back</a>
+</div>
+<form action="/inicio/editar" method="POST" enctype="multipart/form-data">
+    <div class="new">
+        <div class="conteinet">
+            <label>name</label>
+            <input type="text" name="name" value="{{producto.name}}">
+
+            <label>description</label>
+            <input type="text" name="description" value="{{producto.description}}">
+
+            <label>category</label>
+            <select name="category">
+                <option value="{{producto.category}}">no cambiar</option>
+                <option value="clothing">clothing</option>
+                <option value="shoe">shoe</option>
+                <option value="accessories">accessories</option>
+            </select>
+
+            <label>price </label>
+            <input type="number" name="price" value="{{producto.price}}">
+
+            <label>stock</label>
+            <input type="number" name="stock" value="{{producto.stock}}">
+
+
+            <label>ison</label>
+            <input type="checkbox" name="ison" >
+        </div>
+
+        <div class="conteinerCheckBox">
+            <p>Shoe_size</p>
+            <div class="conteinet">
+
+                <label>3.5</label>
+                <input type="number" name="three_half" value="{{sizes.three_half}}">
+                <label>4.0</label>
+                <input type="number" name="four" value="{{sizes.four}}">
+                <label>4.5</label>
+                <input type="number" name="four_half" value="{{sizes.four_half}}">
+                <label>5.0</label>
+                <input type="number" name="five" value="{{sizes.five}}">
+                <label>5.5</label>
+                <input type="number" name="five_half" value="{{sizes.five_half}}">
+                <label>6.0</label>
+                <input type="number" name="six" value="{{sizes.six}}">
+
+            </div>
+
+            <div class="conteinet">
+                <label>6.5</label>
+                <input type="number" name="six_half" value="{{sizes.six_half}}">
+                <label>7.0</label>
+                <input type="number" name="seven" value="{{sizes.seven}}">
+                <label>7.5</label>
+                <input type="number" name="seven_half" value="{{sizes.seven_half}}">
+                <label>8.0</label>
+                <input type="number" name="eight" value="{{sizes.eight}}">
+                <label>8.5</label>
+                <input type="number" name="eight_half" value="{{sizes.eight_half}}">
+                <label>9.0</label>
+                <input type="number" name="nine" value="{{sizes.nine}}">
+
+            </div>
+            <div class="conteinet">
+                <label>9.5</label>
+                <input type="number" name="nine_half" value="{{sizes.nine_half}}">
+                <label>10.0</label>
+                <input type="number" name="ten" value="{{sizes.ten}}">
+                <label>10.5</label>
+                <input type="number" name="ten_half" value="{{sizes.ten_half}}">
+                <label>11.0</label>
+                <input type="number" name="eleven" value="{{sizes.eleven}}">
+                <label>11.5</label>
+                <input type="number" name="eleven_half" value="{{sizes.eleven_half}}">
+                <label>12.0</label>
+                <input type="number" name="twelve" value="{{sizes.twelve}}">
+
+            </div>
+            <div class="conteinet">
+                <label>12.5</label>
+                <input type="number" name="twelve_half" value="{{sizes.twelve_half}}">
+                <label>13.0</label>
+                <input type="number" name="thirteen" value="{{sizes.thirteen}}">
+                <label>13.5</label>
+                <input type="number" name="thirteen_half" value="{{sizes.thirteen_half}}">
+                <label>14.0</label>
+                <input type="number" name="fourteen" value="{{sizes.fourteen}}">
+                <label>14.5</label>
+                <input type="number" name="fourteen_half" value="{{sizes.fourteen_half}}">
+                <label>15.0</label>
+                <input type="number" name="fifteen" value="{{sizes.fifteen}}">
+
+            </div>
+
+        </div>
+        <div class="conteinerCheckBox">
+            <p>_size</p>
+
+            <div class="conteinet">
+                <label>XS</label>
+                <input type="number" name="XS" value="{{sizes.xs}}">
+                <label>S</label>
+                <input type="number" name="S" value="{{sizes.s}}">
+                <label>M</label>
+                <input type="number" name="M" value="{{sizes.m}}">
+                <label>L</label>
+                <input type="number" name="L" value="{{sizes.l}}">
+                <label>XL</label>
+                <input type="number" name="XL" value="{{sizes.xl}}">
+                <label>XXL</label>
+                <input type="number" name="XXL" value="{{sizes.xxl}}">
+                <label>XXXL</label>
+                <input type="number" name="XXXL" value="{{sizes.xxxl}}">
+            </div>
+        </div>
+    </div>
+    <div class="conteiner-button">
+        <button type="submit" class="new-button">Editar</button>
+    </div>
+</form>
+
+{{#if error }}
+<p>{{message}}</p>
+{{/if}}

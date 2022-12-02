@@ -1,0 +1,19 @@
+ 
+ <div class="conteiner-back"> 
+    <a class="back" href="/inicio" >Back</a>
+</div>
+<form action="/login/agregar" method="POST" class="registar-usuario">
+
+    <label>Nuevo usuarios</label>
+    <input type="text" name="usuario">
+
+    <label>Nueva Contrseña</label>
+
+    <input type="password" name="password">
+    <button type="submit" >Crear</button>
+
+    {{#if error }}
+<p>{{message}}</p>
+{{/if}}
+</form>
+

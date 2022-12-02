@@ -1,0 +1,49 @@
+<div class="test">
+    <a href="/inicio/agregar" class="add">
+        <p>Agregar </p>
+        <p>registro</p>
+    </a>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#id</th>
+            <th scope="col">name</th>
+            <th scope="col">description</th>
+            <th scope="col">category</th>
+            <th scope="col">price</th>
+            <th scope="col">stock</th>
+            <th scope="col">ison</th>
+
+
+
+            <th scope="col" class="text-end">Aciones</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        {{#each producto}}
+        <tr>
+            <th scope="row">{{id}}</th>
+            <td>{{name}}</td>
+            <td>{{description}}</td>
+            <td>{{category}}</td>
+            <td>{{price}}</td>
+            <td>{{{stock}}}</td>
+            <td>{{{ison}}}</td>
+
+
+
+            <td class="text-end">
+                <a href="/inicio/eliminar/{{id}}" type="button" class="btn-danger">Eliminar</a>
+                <a href="/inicio/editar/{{id}}" type="button" class="btn-warning"> editar</a>
+
+
+            </td>
+
+        </tr>
+        {{/each}}
+
+
+    </tbody>
+</table>
