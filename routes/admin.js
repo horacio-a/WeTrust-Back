@@ -181,7 +181,6 @@ router.get('/editar/:id', async (req, res, next) => {
 // modifica el nft
 router.post('/editar', async (req, res, next) => {
   try {
-    console.log(req.body.ison)
     var obj = {
       name: req.body.name,
       description: req.body.description,
@@ -190,7 +189,7 @@ router.post('/editar', async (req, res, next) => {
       stock: req.body.stock,
       ison: 1
     }
-    await porductoModel.modificarProductById(obj, req.body.id);
+    await porductoModel.modificarProductById(obj, req.body.name);
     res.redirect('/inicio')
   }
   catch (error) {
