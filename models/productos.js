@@ -36,10 +36,10 @@ async function getProductById(id) {
     return rows[0];
 };
 
-async function modificarProductById(obj, name) {
+async function modificarProductById(obj, id) {
     try {
-        var query = 'update productos set ? where name= ?';
-        var rows = await pool.query(query, [obj, name]);
+        var query = 'update productos set ? where id= ?';
+        var rows = await pool.query(query, [obj, id]);
         return rows;
     }
     catch (error) {
