@@ -59,7 +59,21 @@ router.get('/productos/:token', async function (req, res, next) {
 
 });
 
+router.get('/productos/:token/:id', async function (req, res, next) {
+    const token = req.params.token
+    const id = req.params.id
 
+    if(token == process.env.api_key){
+       var producto = await productosModel.getProductById(id)
+       res.json(producto)
+    }else{
+        return res.json({
+            error: 'error apikey'
+        })
+    }
+
+
+});
 
 
 
