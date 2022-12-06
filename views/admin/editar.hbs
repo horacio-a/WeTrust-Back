@@ -6,12 +6,15 @@
 
     <div class="new">
         <div class="conteinet">
+            <input type="hidden" name="nameAnterior" value="{{producto.name}}">
+
             <label>name</label>
             <input type="text" name="name" value="{{producto.name}}">
 
             <label>description</label>
             <input type="text" name="description" value="{{producto.description}}">
 
+            <input type="hidden" name="CategoryAnterior" value="{{producto.category}}">
             <label>category</label>
             <select name="category">
                 <option value="{{producto.category}}">no cambiar</option>
