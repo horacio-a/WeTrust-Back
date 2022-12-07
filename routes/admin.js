@@ -170,8 +170,7 @@ router.get('/editar/:id', async (req, res, next) => {
   if (producto.category == 'shoe') {
     sizes = await porductoModel.getShoeSizeById(producto.name)
   }
-  console.log(sizes)
-  res.render('admin/editar', {
+res.render('admin/editar', {
     layout: 'admin/layout',
     producto,
     sizes
@@ -190,7 +189,43 @@ router.post('/editar', async (req, res, next) => {
       ison: 1
     }
     await porductoModel.modificarProductById(obj, req.body.id);
-
+    var objcloud = {
+      name:req.body.name,
+      xs: req.body.XS,
+      s : req.body.S,
+      m : req.body.M,
+      l : req.body.L,
+      xl : req.body.XL,
+      xxl : req.body.XXL,
+      xxxl : req.body.XXXL
+    }
+    var objshoe = {
+      name: req.body.name,
+      three_half: req.body.three_half,
+      four: req.body.four,
+      four_half: req.body.four_half,
+      five: req.body.five,
+      five_half: req.body.five_half,
+      six: req.body.six,
+      six_half: req.body.six_half,
+      seven: req.body.seven,
+      seven_half: req.body.seven_half,
+      eight: req.body.eight,
+      eight_half: req.body.eight_half,
+      nine: req.body.nine,
+      nine_half: req.body.nine_half,
+      ten: req.body.ten,
+      ten_half: req.body.ten_half,
+      eleven: req.body.eleven,
+      eleven_half: req.body.eleven_half,
+      twelve: req.body.twelve,
+      twelve_half: req.body.twelve_half,
+      thirteen: req.body.thirteen,
+      thirteen_half: req.body.thirteen_half,
+      fourteen: req.body.fourteen,
+      fourteen_half: req.body.fourteen_half,
+      fifteen: req.body.fifteen
+    }
     if(req.body.name != req.body.nameAnterior){
       if(req.body.category == req.body.CategoryAnterior){
         if(req.body.category == 'shoe'){
@@ -347,7 +382,18 @@ router.post('/editar', async (req, res, next) => {
         await porductoModel.CreateShoeSize(objshoe)
       }
     }
-    console.log(req.body.id)
+
+    if(req.body.category == req.body.CategoryAnterior){
+      if(req.body.category == 'shoe'){
+
+        porductoModel.modificarShoeSizeById(objshoe, req.body.nameAnterior)
+      }
+      if(req.body.category == 'clothing'){
+
+        porductoModel.modificarShoeSizeById(objcloud, req.body.nameAnterior)
+      }
+    }
+
     res.redirect('/inicio')
   }
   catch (error) {
