@@ -394,7 +394,7 @@ router.post('/editar', async (req, res, next) => {
       }
       if(req.body.category == 'clothing'){
 
-        porductoModel.modificarShoeSizeById(objcloud, req.body.nameAnterior)
+        porductoModel.modificarClothingSizeById(objcloud, req.body.nameAnterior)
       }
     }
 
