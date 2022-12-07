@@ -53,6 +53,8 @@ router.post('/agregar', async (req, res, next) => {
       var category = req.body.category
       var price = req.body.price
       var stock = req.body.stock
+      var marca = req.body.marca
+
       if(req.files.img) {
         imagen1 = req.files.img;
         img = (await uploader(imagen1.tempFilePath)).public_id;
@@ -64,6 +66,7 @@ router.post('/agregar', async (req, res, next) => {
         price,
         stock,
         ison,
+        marca,
         img
       });
       if (req.body.category == 'clothing') {
@@ -186,6 +189,7 @@ router.post('/editar', async (req, res, next) => {
       category: req.body.category,
       price: req.body.price,
       stock: req.body.stock,
+      marca : req.body.marca,
       ison: 1
     }
     await porductoModel.modificarProductById(obj, req.body.id);
