@@ -36,6 +36,18 @@ async function getProductById(id) {
     return rows[0];
 };
 
+async function GetProductBycategory(category){
+    var query = 'select * from productos where category = ?';
+    var rows  = await pool.query(query, [category]);
+    return rows
+}
+async function GetProductBysubcategory(subcategory){
+    var query = 'select * from productos where subcategory = ?';
+    var rows  = await pool.query(query, [subcategory]);
+    return rows
+}
+
+
 async function modificarProductById(obj, id) {
     try {
         var query = 'update productos set ? where id= ?';
@@ -170,7 +182,7 @@ async function modificarClothingSizeById(obj, name) {
 
 
 module.exports = {
-    GetProduct, CreateProduct, getProductById, modificarProductById, deleteProductById,
+    GetProduct, CreateProduct, getProductById, modificarProductById, deleteProductById,GetProductBycategory,GetProductBysubcategory,
     GetShoeSize, CreateShoeSize, getShoeSizeById, modificarShoeSizeById, deleteShoeSizeById,
     GetClothingSize, CreateClothingSize, getClothingSizeById, modificarClothingSizeById, deleteClothingSizeById
 }
