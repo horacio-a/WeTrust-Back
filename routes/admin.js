@@ -39,6 +39,7 @@ router.post('/agregar', async (req, res, next) => {
   try {
 
 
+
     if (req.body.ison == 'on') {
       var ison = 1
     } else {
@@ -47,15 +48,17 @@ router.post('/agregar', async (req, res, next) => {
     }
 
     if (req.body.name != "" && req.body.description != "" &&
-      req.body.category != "" && req.body.price != "" && req.body.stock != "") {
+      req.body.category != "" && req.body.price != "" &&
+      req.body.stock != "" && req.body.subcategory != '') {
       var name = req.body.name
       var description = req.body.description
       var category = req.body.category
       var price = req.body.price
       var stock = req.body.stock
       var marca = req.body.marca
+      var subcategory = req.body.subcategory
 
-      if(req.files.img) {
+      if (req.files.img) {
         imagen1 = req.files.img;
         img = (await uploader(imagen1.tempFilePath)).public_id;
       }
@@ -67,7 +70,8 @@ router.post('/agregar', async (req, res, next) => {
         stock,
         ison,
         marca,
-        img
+        img,
+        subcategory
       });
       if (req.body.category == 'clothing') {
         var name = req.body.name
@@ -173,7 +177,7 @@ router.get('/editar/:id', async (req, res, next) => {
   if (producto.category == 'shoe') {
     sizes = await porductoModel.getShoeSizeById(producto.name)
   }
-res.render('admin/editar', {
+  res.render('admin/editar', {
     layout: 'admin/layout',
     producto,
     sizes
@@ -189,19 +193,20 @@ router.post('/editar', async (req, res, next) => {
       category: req.body.category,
       price: req.body.price,
       stock: req.body.stock,
-      marca : req.body.marca,
+      marca: req.body.marca,
+      subcategory: req.body.subcategory,
       ison: 1
     }
     await porductoModel.modificarProductById(obj, req.body.id);
     var objcloud = {
-      name:req.body.name,
+      name: req.body.name,
       xs: req.body.XS,
-      s : req.body.S,
-      m : req.body.M,
-      l : req.body.L,
-      xl : req.body.XL,
-      xxl : req.body.XXL,
-      xxxl : req.body.XXXL
+      s: req.body.S,
+      m: req.body.M,
+      l: req.body.L,
+      xl: req.body.XL,
+      xxl: req.body.XXL,
+      xxxl: req.body.XXXL
     }
     var objshoe = {
       name: req.body.name,
@@ -230,9 +235,9 @@ router.post('/editar', async (req, res, next) => {
       fourteen_half: req.body.fourteen_half,
       fifteen: req.body.fifteen
     }
-    if(req.body.name != req.body.nameAnterior){
-      if(req.body.category == req.body.CategoryAnterior){
-        if(req.body.category == 'shoe'){
+    if (req.body.name != req.body.nameAnterior) {
+      if (req.body.category == req.body.CategoryAnterior) {
+        if (req.body.category == 'shoe') {
           var objshoe = {
             name: req.body.name,
             three_half: req.body.three_half,
@@ -262,14 +267,14 @@ router.post('/editar', async (req, res, next) => {
           }
           await porductoModel.modificarShoeSizeById(objshoe, req.body.nameAnterior)
         }
-        if(req.body.category == 'clothing'){
+        if (req.body.category == 'clothing') {
 
           await porductoModel.modificarClothingSizeById(objcloud, req.body.nameAnterior)
 
         }
 
-      }else{
-        if(req.body.category == 'shoe' && req.body.CategoryAnterior == 'clothing'){
+      } else {
+        if (req.body.category == 'shoe' && req.body.CategoryAnterior == 'clothing') {
           var objshoe = {
             name: req.body.name,
             three_half: req.body.three_half,
@@ -300,35 +305,35 @@ router.post('/editar', async (req, res, next) => {
           await porductoModel.deleteClothingSizeById(req.body.nameAnterior)
           await porductoModel.CreateShoeSize(objshoe)
         }
-        if(req.body.category == 'clothing' && req.body.CategoryAnterior == 'shoe'){
+        if (req.body.category == 'clothing' && req.body.CategoryAnterior == 'shoe') {
           var objcloud = {
-            name:req.body.name,
+            name: req.body.name,
             xs: req.body.XS,
-            s : req.body.S,
-            m : req.body.M,
-            l : req.body.L,
-            xl : req.body.XL,
-            xxl : req.body.XXL,
-            xxxl : req.body.XXXL
+            s: req.body.S,
+            m: req.body.M,
+            l: req.body.L,
+            xl: req.body.XL,
+            xxl: req.body.XXL,
+            xxxl: req.body.XXXL
           }
           await porductoModel.deleteShoeSizeById(req.body.nameAnterior)
           await porductoModel.CreateClothingSize(objcloud)
         }
-        if(req.body.category == 'accessories' && req.body.CategoryAnterior == 'shoe'){
+        if (req.body.category == 'accessories' && req.body.CategoryAnterior == 'shoe') {
           await porductoModel.deleteShoeSizeById(req.body.nameAnterior)
         }
-        if(req.body.category == 'accessories' && req.body.CategoryAnterior == 'clothing'){
+        if (req.body.category == 'accessories' && req.body.CategoryAnterior == 'clothing') {
           await porductoModel.deleteClothingSizeById(req.body.nameAnterior)
         }
-        if(req.body.category == 'clothing' && req.body.CategoryAnterior == 'accessories'){
+        if (req.body.category == 'clothing' && req.body.CategoryAnterior == 'accessories') {
           await porductoModel.CreateClothingSize(objcloud)
         }
-        if(req.body.category == 'shoe' && req.body.CategoryAnterior == 'accessories'){
+        if (req.body.category == 'shoe' && req.body.CategoryAnterior == 'accessories') {
           await porductoModel.CreateShoeSize(objshoe)
         }
-      } 
-    }else if(req.body.category != req.body.CategoryAnterior){
-      if(req.body.category == 'shoe' && req.body.CategoryAnterior == 'clothing'){
+      }
+    } else if (req.body.category != req.body.CategoryAnterior) {
+      if (req.body.category == 'shoe' && req.body.CategoryAnterior == 'clothing') {
         var objshoe = {
           name: req.body.name,
           three_half: req.body.three_half,
@@ -359,40 +364,40 @@ router.post('/editar', async (req, res, next) => {
         await porductoModel.deleteClothingSizeById(req.body.nameAnterior)
         await porductoModel.CreateShoeSize(objshoe)
       }
-      if(req.body.category == 'clothing' && req.body.CategoryAnterior == 'shoe'){
+      if (req.body.category == 'clothing' && req.body.CategoryAnterior == 'shoe') {
         var objcloud = {
-          name:req.body.name,
+          name: req.body.name,
           xs: req.body.XS,
-          s : req.body.S,
-          m : req.body.M,
-          l : req.body.L,
-          xl : req.body.XL,
-          xxl : req.body.XXL,
-          xxxl : req.body.XXXL
+          s: req.body.S,
+          m: req.body.M,
+          l: req.body.L,
+          xl: req.body.XL,
+          xxl: req.body.XXL,
+          xxxl: req.body.XXXL
         }
         await porductoModel.deleteShoeSizeById(req.body.nameAnterior)
         await porductoModel.CreateClothingSize(objcloud)
       }
-      if(req.body.category == 'accessories' && req.body.CategoryAnterior == 'shoe'){
+      if (req.body.category == 'accessories' && req.body.CategoryAnterior == 'shoe') {
         await porductoModel.deleteShoeSizeById(req.body.nameAnterior)
       }
-      if(req.body.category == 'accessories' && req.body.CategoryAnterior == 'clothing'){
+      if (req.body.category == 'accessories' && req.body.CategoryAnterior == 'clothing') {
         await porductoModel.deleteClothingSizeById(req.body.nameAnterior)
       }
-      if(req.body.category == 'clothing' && req.body.CategoryAnterior == 'accessories'){
+      if (req.body.category == 'clothing' && req.body.CategoryAnterior == 'accessories') {
         await porductoModel.CreateClothingSize(objcloud)
       }
-      if(req.body.category == 'shoe' && req.body.CategoryAnterior == 'accessories'){
+      if (req.body.category == 'shoe' && req.body.CategoryAnterior == 'accessories') {
         await porductoModel.CreateShoeSize(objshoe)
       }
     }
 
-    if(req.body.category == req.body.CategoryAnterior){
-      if(req.body.category == 'shoe'){
+    if (req.body.category == req.body.CategoryAnterior) {
+      if (req.body.category == 'shoe') {
 
         porductoModel.modificarShoeSizeById(objshoe, req.body.nameAnterior)
       }
-      if(req.body.category == 'clothing'){
+      if (req.body.category == 'clothing') {
 
         porductoModel.modificarClothingSizeById(objcloud, req.body.nameAnterior)
       }
