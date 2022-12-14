@@ -3,7 +3,7 @@ var md5 = require('md5');
 
 async function getUserByUsernameAndPassword(username, password){
     try {
-        var query = 'select * from user where username = ? and password = ? limit 1';
+        var query = 'select * from useradmin where username = ? and password = ? limit 1';
         var rows = await pool.query(query,[username, md5(password)]);
         return rows[0];
     } catch (error) {
@@ -13,7 +13,7 @@ async function getUserByUsernameAndPassword(username, password){
 
 async function insertUsuario(obj){
     try {
-        var query = 'insert into user set ? ';
+        var query = 'insert into useradmin set ? ';
         var rows = await pool.query(query, [obj])
         return rows;
     } catch (error) {
