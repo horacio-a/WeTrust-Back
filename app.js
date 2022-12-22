@@ -11,11 +11,11 @@ var session = require('express-session')
 
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 var logRouter = require('./routes/login')
 var adminRouter = require('./routes/admin')
 var apiRouter = require('./routes/api')
-
+var apiusersRouter = require('./routes/userapi')
+var apiShoppingCartRouter = require('./routes/ShoppingCart')
 var app = express();
 
 // view engine setup
@@ -56,10 +56,11 @@ app.use(fileUpload({
 
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/login', logRouter);
 app.use('/inicio',secured, adminRouter);
 app.use('/api', cors(), apiRouter);
+app.use('/usuarios', cors(), apiusersRouter);
+app.use('/cart', cors(), apiShoppingCartRouter);
 
 
 // catch 404 and forward to error handler

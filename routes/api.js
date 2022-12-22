@@ -13,13 +13,11 @@ router.get('/productos/token/:token', async function (req, res, next) {
         let clothing_size = await productosModel.GetClothingSize()
         let shoe_size = await productosModel.GetShoeSize()
         for (let i = 0; i < producto.length; i++) {
-            console.log(producto[i].category)
             if (producto[i].category == 'clothing') {
                 for (let index = 0; index < clothing_size.length; index++) {
                     if (clothing_size[index].name == producto[i].name) {
                         const img = cloudinary.url(producto[i].img,)
-                        console.log(img)
-                        console.log(data)
+
                         data.push({
                             produto: producto[i],
                             img,
@@ -34,7 +32,6 @@ router.get('/productos/token/:token', async function (req, res, next) {
             if (producto[i].category == 'shoe') {
                 for (let index = 0; index < shoe_size.length; index++) {
                     if (shoe_size[index].name == producto[i].name) {
-                        console.log(shoe_size[index].name + ' --- ' + producto[i].name)
                         const img = cloudinary.url(producto[i].img,)
 
                         data.push({
@@ -44,7 +41,6 @@ router.get('/productos/token/:token', async function (req, res, next) {
                         })
                         break
                     } else {
-                        console.log(shoe_size[index].name + ' --- ' + producto[i].name + ' ---but not push')
                     }
                 }
             }
@@ -69,6 +65,26 @@ router.get('/productos/token/:token', async function (req, res, next) {
 
 
 });
+router.get('/onlyproductos/token/:token', async function (req, res, next) {
+    const token = req.params.token
+
+    if (token == process.env.api_key) {
+        var data = []
+        let producto = await productosModel.GetProduct()
+
+
+        return res.json(producto)
+    } else {
+        return res.json({
+            error: 'error apikey'
+        })
+    }
+
+
+});
+
+
+
 
 router.get('/productos/destacados/token/:token', async function (req, res, next) {
     const token = req.params.token
