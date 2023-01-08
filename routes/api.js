@@ -97,7 +97,7 @@ router.get('/productos/destacados/token/:token', async function (req, res, next)
         let shoe_size = await productosModel.GetShoeSize()
         for (let i = 0; i < producto.length; i++) {
             console.log(producto[i].category)
-            if (producto[i].category == 'clothing') {
+            if (producto[i].category == 'clothing') {  
                 for (let index = 0; index < clothing_size.length; index++) {
                     if (clothing_size[index].name == producto[i].name) {
                         const img = cloudinary.url(producto[i].img,)

@@ -16,6 +16,7 @@ var adminRouter = require('./routes/admin')
 var apiRouter = require('./routes/api')
 var apiusersRouter = require('./routes/userapi')
 var apiShoppingCartRouter = require('./routes/ShoppingCart')
+var apiPedidoRouter = require('./routes/Pedidos')
 var app = express();
 
 // view engine setup
@@ -61,6 +62,7 @@ app.use('/inicio',secured, adminRouter);
 app.use('/api', cors(), apiRouter);
 app.use('/usuarios', cors(), apiusersRouter);
 app.use('/cart', cors(), apiShoppingCartRouter);
+app.use('/pedidos', cors(), apiPedidoRouter);
 
 
 // catch 404 and forward to error handler
