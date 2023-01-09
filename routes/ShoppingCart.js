@@ -27,6 +27,8 @@ router.get('/modifique', async function (req, res, next) {
 })
 
 router.post('/add/token/:token', async function (req, res, next) {
+    const token = req.params.token
+
     if (token == process.env.api_key) {
 
         var obj = JSON.parse(req.body.obj) 
@@ -42,6 +44,8 @@ router.post('/add/token/:token', async function (req, res, next) {
 })
 
 router.post('/update/token/:token', async function (req, res, next) {
+    const token = req.params.token
+
     if (token == process.env.api_key) {
         var obj = JSON.parse(req.body.obj) 
         await ShoppingCartModel.editQuatityById(obj.quantity, obj.name, obj.talle)
@@ -53,6 +57,8 @@ router.post('/update/token/:token', async function (req, res, next) {
 
 
 router.post('/delete/token/:token', async function (req, res, next) {
+    const token = req.params.token
+
     if (token == process.env.api_key) {
         var obj = JSON.parse(req.body.obj) 
         await ShoppingCartModel.deleteFromUser(obj.name, obj.talle)
@@ -66,6 +72,8 @@ router.post('/delete/token/:token', async function (req, res, next) {
 
 
 router.post('/deleteall/user/:user/token/:token', async function (req, res, next) {
+    const token = req.params.token
+
     if (token == process.env.api_key) {
         const user = req.params.user
         let producto = await ShoppingCartModel.deleteAllFromUser(user)
