@@ -44,6 +44,47 @@ async function insertUsuario(obj) {
 
 };
 
+async function getShippingAdrres(username) {
+    try {
+        var query = 'select * from shippingaddress where user = ? limit 1';
+        var rows = await pool.query(query, [username]);
+        return rows[0];
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function getBillingAddress(username) {
+    try {
+        var query = 'select * from billingaddress where user = ? limit 1';
+        var rows = await pool.query(query, [username]);
+        return rows[0];
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 
-module.exports = { getUserByUsernameAndPassword, insertUsuario, checkUsername ,checkEmail}
+async function EditBillingAddress(obj, user) {
+    try {
+        var query = 'update billingaddress set ? where user = ?';
+        var rows = await pool.query(query, [obj, user]);
+        return rows;
+    }
+    catch (error) {
+        throw error;
+    }
+}
+
+async function EditShippingAddress(obj, user) {
+    try {
+        var query = 'update shippingaddress set ? where user = ?';
+        var rows = await pool.query(query, [obj, user]);
+        return rows;
+    }
+    catch (error) {
+        throw error;
+    }
+}
+
+module.exports = {EditShippingAddress, EditBillingAddress, getShippingAdrres,getBillingAddress, getUserByUsernameAndPassword, insertUsuario, checkUsername ,checkEmail}
