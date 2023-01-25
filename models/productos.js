@@ -47,6 +47,18 @@ async function GetProductBysubcategory(subcategory){
     return rows
 }
 
+async function GetProductBySearch(product, category){
+    var query = ''
+    if(category === 'Todo'){
+        query = 'select * from productos where name LIKE ?';
+    }else{
+        query = 'select * from productos where name LIKE ? and subcategory = ?';
+    }
+    var rows  = await pool.query(query, ['%'+product+'%', category]);
+    return rows
+}
+
+
 
 async function modificarProductById(obj, id) {
     try {
@@ -59,6 +71,14 @@ async function modificarProductById(obj, id) {
     }
 
 }
+
+async function GetMarca(){
+    var query = 'SELECT marca FROM productos';
+    var rows  = await pool.query(query);
+    return rows
+}
+
+
 //                      //
 //                      //
 //   Query Productos    //
@@ -182,7 +202,7 @@ async function modificarClothingSizeById(obj, name) {
 
 
 module.exports = {
-    GetProduct, CreateProduct, getProductById, modificarProductById, deleteProductById,GetProductBycategory,GetProductBysubcategory,
+    GetMarca, GetProduct, CreateProduct, getProductById, modificarProductById, deleteProductById,GetProductBycategory,GetProductBysubcategory,GetProductBySearch,
     GetShoeSize, CreateShoeSize, getShoeSizeById, modificarShoeSizeById, deleteShoeSizeById,
     GetClothingSize, CreateClothingSize, getClothingSizeById, modificarClothingSizeById, deleteClothingSizeById
 }

@@ -25,6 +25,8 @@ router.get('/login/user/:user/password/:password/token/:token', async function (
                 "email": usuarios.email ,
                 "name": usuarios.name ,
                 "lastname": usuarios.lastname ,
+                'DNI': usuarios.DNI,
+                'birth_date': usuarios.birth_date,
                 'shippingaddress': shippingaddress,
                 'billingaddress': billingaddress
 

@@ -87,4 +87,32 @@ async function EditShippingAddress(obj, user) {
     }
 }
 
-module.exports = {EditShippingAddress, EditBillingAddress, getShippingAdrres,getBillingAddress, getUserByUsernameAndPassword, insertUsuario, checkUsername ,checkEmail}
+
+
+async function deleteUsuario(user) {
+    var query = 'delete from userweb where user = ?';
+    var rows = await pool.query(query, [user]);
+    return rows
+};
+
+
+async function deleteBillingAddress(user) {
+    var query = 'delete from userweb where user = ?';
+    var rows = await pool.query(query, [user]);
+    return rows
+};
+
+
+async function deleteShippingAddress(user) {
+    var query = 'delete from userweb where user = ?';
+    var rows = await pool.query(query, [user]);
+    return rows
+};
+
+
+
+
+
+
+
+module.exports = {deleteUsuario, EditShippingAddress, EditBillingAddress, getShippingAdrres,getBillingAddress, getUserByUsernameAndPassword, insertUsuario, checkUsername ,checkEmail}

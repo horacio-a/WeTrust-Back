@@ -96,8 +96,7 @@ router.get('/productos/destacados/token/:token', async function (req, res, next)
         let clothing_size = await productosModel.GetClothingSize()
         let shoe_size = await productosModel.GetShoeSize()
         for (let i = 0; i < producto.length; i++) {
-            console.log(producto[i].category)
-            if (producto[i].category == 'clothing') {  
+            if (producto[i].category == 'clothing') {
                 for (let index = 0; index < clothing_size.length; index++) {
                     if (clothing_size[index].name == producto[i].name) {
                         const img = cloudinary.url(producto[i].img,)
@@ -183,7 +182,6 @@ router.get('/productos/category/:category/token/:token/', async function (req, r
         let shoe_size = await productosModel.GetShoeSize()
 
         for (let i = 0; i < producto.length; i++) {
-            console.log(producto[i].category)
             if (producto[i].category == 'clothing') {
                 for (let index = 0; index < clothing_size.length; index++) {
                     if (clothing_size[index].name == producto[i].name) {
@@ -212,7 +210,6 @@ router.get('/productos/category/:category/token/:token/', async function (req, r
                         })
                         break
                     } else {
-                        console.log(shoe_size[index].name + ' --- ' + producto[i].name + ' ---but not push')
                     }
                 }
             }
@@ -305,6 +302,104 @@ router.get('/productos/subcategory/:subcategory/token/:token/', async function (
 });
 
 
+
+router.get('/productos/category/:category/product/:product/token/:token/', async function (req, res, next) {
+    const token = req.params.token
+    const category = req.params.category
+    const product = req.params.product
+
+    console.log(category)
+    if (token == process.env.api_key) {
+        var data = []
+        let producto = await productosModel.GetProductBySearch(product, category)
+        let clothing_size = await productosModel.GetClothingSize()
+        let shoe_size = await productosModel.GetShoeSize()
+
+        for (let i = 0; i < producto.length; i++) {
+
+            if (producto[i].category == 'clothing') {
+                for (let index = 0; index < clothing_size.length; index++) {
+                    if (clothing_size[index].name == producto[i].name) {
+                        const img = cloudinary.url(producto[i].img,)
+
+                        data.push({
+                            produto: producto[i],
+                            img,
+                            talles: clothing_size[index]
+                        })
+
+
+                    } else {
+                    }
+                }
+            }
+            if (producto[i].category == 'shoe') {
+                for (let index = 0; index < shoe_size.length; index++) {
+                    if (shoe_size[index].name == producto[i].name) {
+                        const img = cloudinary.url(producto[i].img,)
+
+                        data.push({
+                            produto: producto[i],
+                            img,
+                            talles: shoe_size[index]
+                        })
+                        break
+                    } else {
+                    }
+                }
+            }
+            if (producto[i].category == 'accessories') {
+
+                const img = cloudinary.url(producto[i].img,)
+
+                data.push({
+                    produto: producto[i],
+                    img,
+                })
+
+            }
+
+        }
+        return res.json(data)
+    } else {
+        return res.json({
+            error: 'error apikey'
+        })
+    }
+
+});
+
+
+
+router.get('/marcas/token/:token', async function (req, res, next) {
+    const token = req.params.token
+
+
+    if (token == process.env.api_key) {
+        var marca = await productosModel.GetMarca()
+        var data = []
+        marca.map(item => {
+            data.push(item.marca)
+
+
+        })
+
+        const result = data.reduce((acc, item) => {
+            if (!acc.includes(item)) {
+                acc.push(item);
+            }
+            return acc;
+        }, [])
+
+
+        return res.json(result)
+    } else {
+        return res.json({
+            error: 'error apikey'
+        })
+    }
+
+});
 
 
 module.exports = router;
