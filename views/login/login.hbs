@@ -1,19 +1,25 @@
-<form action="/login" method="POST" class="login">
+<main class="mainLogin">
+    <div class="titleLogin">
+        Administrador de WeTrust
+    </div>
+    <form action="/login" method="POST" class="login">
 
-    <label>Usuarios</label>
-    <input type="text" name="usuario">
+        <label>Usuario</label>
+        <input type="text" name="usuario">
 
-    <label>Contrseña</label>
+        <label>Contrseña</label>
 
-    <input type="password" name="password">
-    <button type="submit" class="btn btn-primary">Sign in</button>
-</form>
+        <input type="password" name="password">
+        <button type="submit" class="btn btn-primary">Sign in</button>
+    </form>
 
-{{#if error }}
-<p>El usuario y/o Contrseña son Incorrectos</p>
-{{/if}}
+    {{#if error }}
+    <p>El usuario y/o Contrseña son Incorrectos</p>
+    {{/if}}
 
 
-{{#if erro }}
-<p>error</p>
-{{/if}}
+    {{#if erro }}
+    <p>error</p>
+    {{/if}}
+
+</main>

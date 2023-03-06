@@ -1,19 +1,22 @@
- 
- <div class="conteiner-back"> 
-    <a class="back" href="/inicio" >Back</a>
+<div class="conteiner-back">
+    <a class="back" href="/productos">Back</a>
 </div>
-<form action="/login/agregar" method="POST" class="registar-usuario">
+<main class="mainRegister">
+    <div class="titleLogin">
+        Crea un nuevo Administrador
+    </div>
+    <form action="/login/agregar" method="POST" class="login">
 
-    <label>Nuevo usuarios</label>
-    <input type="text" name="usuario">
+        <label>Nuevo usuarios</label>
+        <input type="text" name="usuario">
 
-    <label>Nueva Contrseña</label>
+        <label>Nueva Contrseña</label>
 
-    <input type="password" name="password">
-    <button type="submit" >Crear</button>
+        <input type="password" name="password">
+        <button type="submit">Crear</button>
 
-    {{#if error }}
-<p>{{message}}</p>
-{{/if}}
-</form>
-
+        {{#if error }}
+        <p>{{message}}</p>
+        {{/if}}
+    </form>
+</main>

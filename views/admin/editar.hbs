@@ -1,162 +1,281 @@
 <div class="conteiner-back">
-    <a class="back" href="/inicio">Back</a>
+    <a class="back" href="/productos">Back</a>
 </div>
-<form action="/inicio/editar" method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="id" value="{{producto.id}}">
+<form action="/productos/editar" method="POST" enctype="multipart/form-data" class="formNewProduct">
 
-    <div class="new">
-        <div class="conteinet">
-            <input type="hidden" name="nameAnterior" value="{{producto.name}}">
+    <input type="hidden" name="id" value="{{producto.id}}">
 
-            <label>name</label>
-            <input type="text" name="name" value="{{producto.name}}">
+    <div class="conteinertitleProduct">
+        Informacion General
+    </div>
+    <div class="conteinerNewProduct">
+        <div class="rowNewProduct">
+            <div class="columnNewProduct">
+                <input type="hidden" name="nameAnterior" value="{{producto.name}}">
 
-            <label>description</label>
-            <input type="text" name="description" value="{{producto.description}}">
+                <label>Nombre de Producto</label>
+                <input type="text" name="name" autocomplete="off" value="{{producto.name}}">
+            </div>
+            <div class="columnNewProduct">
 
+                <label>Descripción </label>
+                <input type="text" name="description" value="{{producto.description}}">
+            </div>
+            <div class="columnNewProduct">
+                <label>Marca</label>
+                <input type="text" name="marca" value="{{producto.marca}}">
+            </div>
 
-            <label>marca</label>
-            <input type="text" name="marca" value="{{producto.marca}}">
+        </div>
+        <div class="rowNewProduct">
+            <div class="columnNewProduct">
+                <input type="hidden" name="CategoryAnterior" value="{{producto.category}}">
+                <label>Categoría</label>
+                <select name="category" onchange="ChangeCategory()">
+                    <option value="{{producto.category}}">no cambiar</option>
+                    <option value="clothing">clothing</option>
+                    <option value="shoe">shoe</option>
+                    <option value="accessories">accessories</option>
+                </select>
 
+            </div>
+            <div class="columnNewProduct">
+                <label>Subcategoría</label>
+                <select name="subcategory">
+                    <option value="{{producto.subcategory}}">no cambiar</option>
 
-            <input type="hidden" name="CategoryAnterior" value="{{producto.category}}">
-            <label>category</label>
-            <select name="category">
-                <option value="{{producto.category}}">no cambiar</option>
-                <option value="clothing">clothing</option>
-                <option value="shoe">shoe</option>
-                <option value="accessories">accessories</option>
-            </select>
-            
+                    <option value="">-----accessories-------</option>
+                    <option value="Anteojos">Anteojos</option>
+                    <option value="Bolsos">Bolsos</option>
+                    <option value="Ceniceros">Ceniceros</option>
+                    <option value="Encendedores">Encendedores</option>
+                    <option value="Gorros">Gorros/Gorras</option>
+                    <option value="Juguetes">Juguetes</option>
 
-            <label>subcategory</label>
-            <select name="subcategory">
-                <option value="{{producto.subcategory}}">no cambiar</option>
+                    <option value="">-----clothing-------</option>
+                    <option value="Camperas">Camperas</option>
+                    <option value="Hoodies">Hoodies</option>
+                    <option value="Pantalones">Pantalones</option>
+                    <option value="Remeras">Remeras</option>
+                    <option value="Shorts">Shorts</option>
+                    <option value="Underwear">Underwear</option>
 
-                <option value="">-----accessories-------</option>
-                <option value="Anteojos">Anteojos</option>
-                <option value="Bolsos">Bolsos</option>
-                <option value="Ceniceros">Ceniceros</option>
-                <option value="Encendedores">Encendedores</option>
-                <option value="Gorros">Gorros/Gorras</option>
-                <option value="Juguetes">Juguetes</option>
+                    <option value="">-----shoe-------</option>
+                    <option value="sneakers">sneakers</option>
+                    <option value="Slides">Slides</option>
 
-                <option value="">-----clothing-------</option>
-                <option value="Camperas">Camperas</option>
-                <option value="Hoodies">Hoodies</option>
-                <option value="Pantalones">Pantalones</option>
-                <option value="Remeras">Remeras</option>
-                <option value="Shorts">Shorts</option>
-                <option value="Underwear">Underwear</option>
+                </select>
+            </div>
+            <div class="columnNewProduct">
+                <label>Precio</label>
+                <input type="number" name="price" value="{{producto.price}}">
+            </div>
+        </div>
+        <div class="rowNewProduct">
+            <div class="columnNewProduct">
+                <label>stock</label>
+                <input type="number" name="stock" value="{{producto.stock}}">
+            </div>
+            <div class="columnNewProduct">
+                <label>ison</label>
+                <input type="checkbox" name="ison">
+            </div>
+            <div class="columnNewProduct">
+                <label>foto</label>
+                <input type="hidden" name="Previousimg" id="Previousimg" value="{{producto.img}}">
 
-                <option value="">-----shoe-------</option>
-                <option value="sneakers">sneakers</option>
-                <option value="Slides">Slides</option>
+                <input type="file" name="img" id="img" class="fileSelect">
+            </div>
+        </div>
+    </div>
 
-            </select>
+    <div class="mainRopa desactive" id="mainRopa">
+        <div class="conteinertitleRopa">
+            Talles Ropa
+        </div>
+        <div class="conteinerNewRopa">
+            <div class="rowNewRopa">
+                <div class="columnNewRopa">
+                    <label>XS</label>
+                    <input type="number" name="XS" value="0">
+                </div>
+                <div class="columnNewRopa">
+                    <label>S</label>
+                    <input type="number" name="S" value="0">
+                </div>
+                <div class="columnNewRopa">
+                    <label>M</label>
+                    <input type="number" name="M" value="0">
+                </div>
 
-            <label>price </label>
-            <input type="number" name="price" value="{{producto.price}}">
+            </div>
+            <div class="rowNewRopa">
+                <div class="columnNewRopa">
+                    <label>L</label>
+                    <input type="number" name="L" value="0">
+                </div>
+                <div class="columnNewRopa">
+                    <label>XL</label>
+                    <input type="number" name="XL" value="0">
+                </div>
+                <div class="columnNewRopa">
+                    <label>XXL</label>
+                    <input type="number" name="XXL" value="0">
+                </div>
+                <div class="columnNewRopa">
+                    <label>XXXL</label>
+                    <input type="number" name="XXXL" value="0">
+                </div>
+            </div>
 
-            <label>stock</label>
-            <input type="number" name="stock" value="{{producto.stock}}">
-
-
-            <label>ison</label>
-            <input type="checkbox" name="ison" >
         </div>
 
-        <div class="conteinerCheckBox">
-            <p>Shoe_size</p>
-            <div class="conteinet">
+    </div>
+    <div class="mainSneakers desactive" id="mainSneakers">
 
-                <label>3.5</label>
-                <input type="number" name="three_half" value="{{sizes.three_half}}">
-                <label>4.0</label>
-                <input type="number" name="four" value="{{sizes.four}}">
-                <label>4.5</label>
-                <input type="number" name="four_half" value="{{sizes.four_half}}">
-                <label>5.0</label>
-                <input type="number" name="five" value="{{sizes.five}}">
-                <label>5.5</label>
-                <input type="number" name="five_half" value="{{sizes.five_half}}">
-                <label>6.0</label>
-                <input type="number" name="six" value="{{sizes.six}}">
+        <div class="conteinertitleSneakers">
+            Talles Sneakers
+        </div>
 
+
+
+
+        <div class="conteinerNewSneakers">
+            <div class="rowNewSneakers">
+                <div class="columnNewSneakers">
+                    <label>3.5</label>
+                    <input type="number" name="three_half" value="{{sizes.three_half}}">
+                </div>
+                <div class="columnNewSneakers">
+                    <label>4.0</label>
+                    <input type="number" name="four" value="{{sizes.four}}">
+                </div>
+                <div class="columnNewSneakers">
+                    <label>4.5</label>
+                    <input type="number" name="four_half" value="{{sizes.four_half}}">
+                </div>
+                <div class="columnNewSneakers">
+                    <label>5.0</label>
+                    <input type="number" name="five" value="{{sizes.five}}">
+                </div>
+                <div class="columnNewSneakers">
+                    <label>5.5</label>
+                    <input type="number" name="five_half" value="{{sizes.five_half}}">
+                </div>
+                <div class="columnNewSneakers">
+                    <label>6.0</label>
+                    <input type="number" name="six" value="{{sizes.six}}">
+                </div>
             </div>
 
-            <div class="conteinet">
-                <label>6.5</label>
-                <input type="number" name="six_half" value="{{sizes.six_half}}">
-                <label>7.0</label>
-                <input type="number" name="seven" value="{{sizes.seven}}">
-                <label>7.5</label>
-                <input type="number" name="seven_half" value="{{sizes.seven_half}}">
-                <label>8.0</label>
-                <input type="number" name="eight" value="{{sizes.eight}}">
-                <label>8.5</label>
-                <input type="number" name="eight_half" value="{{sizes.eight_half}}">
-                <label>9.0</label>
-                <input type="number" name="nine" value="{{sizes.nine}}">
 
+
+
+
+
+            <div class="rowNewSneakers">
+                <div class="columnNewSneakers">
+                    <label>6.5</label>
+                    <input type="number" name="six_half" value="{{sizes.six_half}}">
+                </div>
+                <div class="columnNewSneakers">
+                    <label>7.0</label>
+                    <input type="number" name="seven" value="{{sizes.seven}}">
+                </div>
+                <div class="columnNewSneakers">
+                    <label>7.5</label>
+                    <input type="number" name="seven_half" value="{{sizes.seven_half}}">
+                </div>
+                <div class="columnNewSneakers">
+                    <label>8.0</label>
+                    <input type="number" name="eight" value="{{sizes.eight}}">
+                </div>
+                <div class="columnNewSneakers">
+                    <label>8.5</label>
+                    <input type="number" name="eight_half" value="{{sizes.eight_half}}">
+                </div>
+                <div class="columnNewSneakers">
+                    <label>9.0</label>
+                    <input type="number" name="nine" value="{{sizes.nine}}">
+                </div>
             </div>
-            <div class="conteinet">
-                <label>9.5</label>
+
+
+
+
+
+            <div class="rowNewSneakers">
+                <div class="columnNewSneakers">
+                    <label>9.5</label>
                 <input type="number" name="nine_half" value="{{sizes.nine_half}}">
-                <label>10.0</label>
+                </div>
+                <div class="columnNewSneakers">
+                    <label>10.0</label>
                 <input type="number" name="ten" value="{{sizes.ten}}">
-                <label>10.5</label>
+                </div>
+                <div class="columnNewSneakers">
+
+                    <label>10.5</label>
                 <input type="number" name="ten_half" value="{{sizes.ten_half}}">
-                <label>11.0</label>
+                </div>
+                <div class="columnNewSneakers">
+                    <label>11.0</label>
                 <input type="number" name="eleven" value="{{sizes.eleven}}">
-                <label>11.5</label>
+                </div>
+                <div class="columnNewSneakers">
+                    <label>11.5</label>
                 <input type="number" name="eleven_half" value="{{sizes.eleven_half}}">
-                <label>12.0</label>
+                </div>
+                <div class="columnNewSneakers">
+                    <label>12.0</label>
                 <input type="number" name="twelve" value="{{sizes.twelve}}">
-
+                </div>
             </div>
-            <div class="conteinet">
-                <label>12.5</label>
+
+
+
+
+            <div class="rowNewSneakers">
+                <div class="columnNewSneakers">
+                    <label>12.5</label>
                 <input type="number" name="twelve_half" value="{{sizes.twelve_half}}">
-                <label>13.0</label>
+                </div>
+                <div class="columnNewSneakers">
+                    <label>13.0</label>
                 <input type="number" name="thirteen" value="{{sizes.thirteen}}">
-                <label>13.5</label>
+                </div>
+                <div class="columnNewSneakers">
+                    <label>13.5</label>
                 <input type="number" name="thirteen_half" value="{{sizes.thirteen_half}}">
-                <label>14.0</label>
+                </div>
+                <div class="columnNewSneakers">
+
+                    <label>14.0</label>
                 <input type="number" name="fourteen" value="{{sizes.fourteen}}">
-                <label>14.5</label>
+                </div>
+                <div class="columnNewSneakers">
+
+                    <label>14.5</label>
                 <input type="number" name="fourteen_half" value="{{sizes.fourteen_half}}">
-                <label>15.0</label>
+                </div>
+                <div class="columnNewSneakers">
+
+                    <label>15.0</label>
                 <input type="number" name="fifteen" value="{{sizes.fifteen}}">
-
+                </div>
             </div>
 
         </div>
-        <div class="conteinerCheckBox">
-            <p>_size</p>
 
-            <div class="conteinet">
-                <label>XS</label>
-                <input type="number" name="XS" value="{{sizes.xs}}">
-                <label>S</label>
-                <input type="number" name="S" value="{{sizes.s}}">
-                <label>M</label>
-                <input type="number" name="M" value="{{sizes.m}}">
-                <label>L</label>
-                <input type="number" name="L" value="{{sizes.l}}">
-                <label>XL</label>
-                <input type="number" name="XL" value="{{sizes.xl}}">
-                <label>XXL</label>
-                <input type="number" name="XXL" value="{{sizes.xxl}}">
-                <label>XXXL</label>
-                <input type="number" name="XXXL" value="{{sizes.xxxl}}">
-            </div>
-        </div>
+
     </div>
     <div class="conteiner-button">
-        <button type="submit" class="new-button">Editar</button>
+        <button type="submit" class="new-button">Crear</button>
     </div>
 </form>
+
+
+
 
 {{#if error }}
 <p>{{message}}</p>

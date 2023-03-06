@@ -1,190 +1,140 @@
 var express = require('express');
 var router = express.Router();
-var recursosModel = require('./../models/recursos')
-var porductoModel = require('./../models/productos')
-
+var porductoModel = require('../models/productos')
+var ventasModel = require('../models/Pedidos')
 const util = require('util');
 const cloudinary = require('cloudinary').v2;
 const uploader = util.promisify(cloudinary.uploader.upload);
-const destroy = util.promisify(cloudinary.uploader.destroy)
 
 
 
-/* GET home page. */
 router.get('/', async function (req, res, next) {
-  var producto = await porductoModel.GetProduct()
+  var orders = await ventasModel.getInfoOrder()
+  var Alltotal = 0
+  var allSales = 0
+  var weeklySales = 0
+  var weeklyTotal = 0
+  function lastSevenDays() {
+    const today = new Date();
+    const lastSevenDays = [];
 
-  res.render('admin/admin', {
-    layout: 'admin/layout',
-    producto
+    for (let i = 0; i < 7; i++) {
+      const previousDay = new Date(today);
+      previousDay.setDate(previousDay.getDate() - i);
+      var options = { weekday: 'long', year: 'numeric', month: 'long', day: '2-digit' }
+      var dia = previousDay.toLocaleDateString('es-mx', options).split(', ')[1];
+
+      lastSevenDays.push(dia);
+    }
+
+    return lastSevenDays;
+  };
+  var weekly = lastSevenDays()
+
+  for (let i = 0; i < orders.length; i++) {
+    const e = orders[i];
+
+    for (let i = 0; i < weekly.length; i++) {
+      const element = weekly[i];
+      if(e.date == element){
+        weeklyTotal = e.total + weeklyTotal
+        weeklySales = weeklySales + 1
+      }
+      
+
+    }
+
+    Alltotal = e.total + Alltotal
+    allSales = allSales + 1
+  }
+
+
+  weeklyTotal = weeklyTotal.toLocaleString('en-IN', { style: 'currency', currency: 'USD', minimumFractionDigits: 2 })
+  Alltotal = Alltotal.toLocaleString('en-IN', { style: 'currency', currency: 'USD', minimumFractionDigits: 2 })
+
+
+  res.render('ventas/admin', {
+    title: 'Ventas',
+    layout: 'ventas/layout',
+    orders,
+    Alltotal,
+    allSales,
+    weeklySales,
+    weeklyTotal
   })
 });
 
 
 
-
-
-
-router.get('/agregar', async function (req, res, next) {
-
-  res.render('admin/agregar', {
-    layout: 'admin/layout',
-    title: 'Agregar un Registro',
-
-  })
-});
-
-
-router.post('/agregar', async (req, res, next) => {
+router.get('/num_order/:id', async (req, res, next) => {
   try {
+    var id = req.params.id;
 
-
-
-    if (req.body.ison == 'on') {
-      var ison = 1
-    } else {
-      var ison = 0
-
+    let order = await ventasModel.getInfoOrderByNumOrder(id)
+    let product = await ventasModel.getProductOrderBynumorder(id)
+  
+    for (let i = 0; i < product.length; i++) {
+      product[i].img = cloudinary.url(product[i].img,)
     }
-
-    if (req.body.name != "" && req.body.description != "" &&
-      req.body.category != "" && req.body.price != "" &&
-      req.body.stock != "" && req.body.subcategory != '') {
-      var name = req.body.name
-      var description = req.body.description
-      var category = req.body.category
-      var price = req.body.price
-      var stock = req.body.stock
-      var marca = req.body.marca
-      var subcategory = req.body.subcategory
-
-      if (req.files.img) {
-        imagen1 = req.files.img;
-        img = (await uploader(imagen1.tempFilePath)).public_id;
-      }
-      await porductoModel.CreateProduct({
-        name,
-        description,
-        category,
-        price,
-        stock,
-        ison,
-        marca,
-        img,
-        subcategory
-      });
-      if (req.body.category == 'clothing') {
-        var name = req.body.name
-        var xs = req.body.XS
-        var s = req.body.S
-        var m = req.body.M
-        var l = req.body.L
-        var xl = req.body.XL
-        var xxl = req.body.XXL
-        var xxxl = req.body.XXXL
-        await porductoModel.CreateClothingSize({
-          name,
-          xs,
-          s,
-          m,
-          l,
-          xl,
-          xxl,
-          xxxl
-        })
-      }
-      if (req.body.category == 'shoe') {
-
-        var obj = {
-          name: req.body.name,
-          three_half: req.body.three_half,
-          four: req.body.four,
-          four_half: req.body.four_half,
-          five: req.body.five,
-          five_half: req.body.five_half,
-          six: req.body.six,
-          six_half: req.body.six_half,
-          seven: req.body.seven,
-          seven_half: req.body.seven_half,
-          eight: req.body.eight,
-          eight_half: req.body.eight_half,
-          nine: req.body.nine,
-          nine_half: req.body.nine_half,
-          ten: req.body.ten,
-          ten_half: req.body.ten_half,
-          eleven: req.body.eleven,
-          eleven_half: req.body.eleven_half,
-          twelve: req.body.twelve,
-          twelve_half: req.body.twelve_half,
-          thirteen: req.body.thirteen,
-          thirteen_half: req.body.thirteen_half,
-          fourteen: req.body.fourteen,
-          fourteen_half: req.body.fourteen_half,
-          fifteen: req.body.fifteen
-        }
-
-        await porductoModel.CreateShoeSize(obj)
-      }
-
-      res.redirect('/inicio')
-    } else {
-      res.render('admin/agregar', {
-        layout: 'admin/layout',
-        error: true,
-        message: "alguno de los campos requeridos no fue cargado"
-      })
+    let num_guia = order.num_guia
+    let status = 0
+    if(num_guia != 0){
+      status = false
+    }else{
+      status =true 
     }
-  } catch (error) {
-    console.log(error)
-    res.render('admin/agregar', {
-      layout: "admin/layout",
-      error: true,
-      message: "error al crear el producto0"
+      res.render('ventas/ventaID', {
+      order,
+      product,
+      status,
+  
     })
+  } catch (error) {
+    res.redirect('/ventas'),{
+      layout: 'ventas/layout'
+    }
   }
 });
 
-router.get('/eliminar/:id', async (req, res, next) => {
-  var id = req.params.id;
+router.post('/addnum_order', async (req, res, next) => {
 
-  // Trae el producto por el id pasado del params
-  let producto = await porductoModel.getProductById(id)
+  let num_guia = req.body.num_guia
+  let num_order = req.body.num_order
+  let state = 'Enviado'
 
-  // se comprueba la categoria
-  if (producto.category == 'clothing') {
-    // eliminar el registros de clothin size dependiendo del name pasado
-    await porductoModel.deleteClothingSizeById(producto.name)
+  await ventasModel.UptadeState(state, num_order)
+
+  await ventasModel.UptadeNumGuia(num_guia, num_order)
+
+  // Hacer que el status se actualice dependiendo lo que diga la api de andriani
+  res.redirect('/ventas'),{
+    layout: 'ventas/layout'
   }
-  if (producto.category == 'shoe') {
-    // eliminar el registros de shoe size dependiendo del name pasado
-    await porductoModel.deleteShoeSizeById(producto.name)
+});
+
+
+router.post('/refresh', async (req, res, next ) =>{
+  let num_guia = req.body.num_guia
+  let num_order = req.body.num_order
+
+  let order = await ventasModel.getInfoOrderByNumOrder(num_order)
+  if(order.state === 'Por Enviar' && order.num_order != 0){
+    let state = 'Enviado'
+
+    await ventasModel.UptadeState(state, num_order)
+  }else{
+    console.log('no cambiar')
   }
-  // eliminar el registros de producto dependiendo del id pasado
-  await porductoModel.deleteProductById(id);
-  res.redirect('/inicio')
+
+  let url = '/ventas/num_order/' + num_order
+
+  res.redirect(url),{
+    layout: 'ventas/layout'
+  }
+
 })
 
 
-// trae el recurso por id para despues modificarlo
-router.get('/editar/:id', async (req, res, next) => {
-  var id = req.params.id;
-  let sizes = ''
-  let producto = await porductoModel.getProductById(id)
-
-  if (producto.category == 'clothing') {
-    sizes = await porductoModel.getClothingSizeById(producto.name)
-  }
-  if (producto.category == 'shoe') {
-    sizes = await porductoModel.getShoeSizeById(producto.name)
-  }
-  res.render('admin/editar', {
-    layout: 'admin/layout',
-    producto,
-    sizes
-  })
-});
-
-// modifica el nft
 router.post('/editar', async (req, res, next) => {
   try {
     var obj = {

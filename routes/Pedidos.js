@@ -12,7 +12,7 @@ router.get('/user/:user/token/:token', async function (req, res, next) {
 
         var resultado = []
         let orders = await PedidosModel.getInfoOrderByUser(user)
-
+        console.log(orders)
         for (var property in orders) {
             let num_order = orders[property].num_order
             let products = await PedidosModel.getProductOrderBynumorder(num_order)
@@ -46,6 +46,7 @@ router.post('/add/token/:token', async function (req, res, next) {
             total: data.total,
             state: data.state,
             qtyProduct: data.qtyProduct,
+            num_guia: data.num_guia,
 
         }
         await PedidosModel.addInfoOrder(PedidoData)

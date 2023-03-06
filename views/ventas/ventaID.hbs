@@ -1,0 +1,87 @@
+<div class="mainventaid">
+    <div class="conteiner-back">
+        <a class="back" href="/ventas">Back</a>
+    </div>
+    <div class="infoOrder">
+        <div class="TitleOrder">
+            <div class="unitOrder left">
+                <div class="featured">Fecha de compra:</div>
+                <div>{{order.date}}</div>
+            </div>
+            <div class="unitOrder">
+                <div class="featured">Total:</div>
+                <div>${{order.total}}</div>
+            </div>
+            <div class="unitOrder right">
+                <div class="featured">Identificador</div>
+                <div>#{{order.num_order}}-{{order.id}}</div>
+            </div>
+        </div>
+        <div class="conteinerGuia">
+            {{#if status}}
+            <div class="titleConteinerGuia">
+                Ingresar numero de guía
+            </div>
+            <form action="/ventas/addnum_order" method="post" class="formGuia" enctype="multipart/form-data">
+                <input type="hidden" name="num_order" value={{order.num_order}}>
+                <input type="text" name="num_guia" placeholder="360000637885960" autocomplete="off" class="inputText">
+                <input type="submit" value="Guarda" class="inputSubmit">
+            </form>
+            {{else}}
+            <div class="conteinerRefresh">
+                <div class="rowInfoRefresh">
+                    <div class="columnInfoRefresh">
+                        <div class="titleRefresh">Numero guia</div>
+                        <div class="RefreshBlock">{{order.num_guia}}</div>
+                    </div>
+                    <div class="columnInfoRefresh">
+                        <div class="titleRefresh">Estado:</div>
+                        <div class="RefreshState">{{order.state}}</div>
+                    </div>
+                </div>
+
+                <form method="post" action="/ventas/refresh" enctype="multipart/form-data" class="formRefresh">
+                    <div class="rowButons">
+                        <a class="ButtonTypeOne" target="_blank"
+                            href="https://www.andreani.com/#!/informacionEnvio/{{order.num_guia}}">Ver en andreani</a>
+                        <input type="submit" value="Refresh state" class="ButtonTypeTwo"></input>
+                        <input type="hidden" name="num_guia" value={{order.num_guia}}>
+                        <input type="hidden" name="num_order" value={{order.num_order}}>
+
+                    </div>
+
+                </form>
+            </div>
+            {{/if}}
+        </div>
+
+    </div>
+
+    <div class="titleProductid">
+        Productos de esta compras
+    </div>
+    <div class="Products">
+        {{#each product}}
+        <div class="unitProduct">
+            <div class="imgRow">
+                <div class="conteinerImg">
+                    <img src="{{img}}"></img>
+                </div>
+            </div>
+            <div class="nameRow">
+                {{name}}
+            </div>
+            <div class="sizeRow">
+                <div>Qty: {{quantity}}</div>
+                <div>Size: {{size}}</div>
+            </div>
+            <div class="subtRow">
+                <div>Subtotal:</div>
+                <div>${{subtotal}}</div>
+            </div>
+        </div>
+        {{/each}}
+
+    </div>
+
+</div>

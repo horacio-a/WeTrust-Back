@@ -1,51 +1,68 @@
-<div class="test">
-    <a href="/inicio/agregar" class="add">
-        <p>Agregar </p>
-        <p>registro</p>
-    </a>
+<div class="titleProduct">
+    <div class="text">
+        Productos
+    </div>
+    <div class="conteinerBtn">
+        <a href="/productos/agregar" class="add">
+            Agregar producto
+        </a>
+    </div>
+
+
 </div>
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">#id</th>
-            <th scope="col">name</th>
-            <th scope="col">description</th>
-            <th scope="col">category</th>
-            <th scope="col">subcategory</th>
-            <th scope="col">price</th>
-            <th scope="col">stock</th>
-            <th scope="col">ison</th>
+
+<div class="conteinerTable">
+    <div class="headTable">
+        <div class="TitleHeadTable S">ID</div>
+        <div class="TitleHeadTable L">Acciones</div>
+        <div class="TitleHeadTable L">Nombre</div>
+        <div class="TitleHeadTable M">Marca</div>
+        <div class="TitleHeadTable M">Categoría</div>
+        <div class="TitleHeadTable M">Subcategoría</div>
+        <div class="TitleHeadTable M">Precio</div>
+        <div class="TitleHeadTable S">Stock</div>
+        <div class="TitleHeadTable L">Imagen</div>
+        <div class="TitleHeadTable XL">Descripción</div>
+
+    </div>
+    {{#each producto}}
+
+    <div class="BodyTable">
+        <div class="DatoBodyTable S">{{id}}</div>
+        <div class="DatoBodyTable L actions active" id="{{id}}options">
+            <div class="btn-danger" onclick="Contienrdelete({{id}})">
+                <i class="fa-solid fa-ban"></i>
+            </div>
+            <div class="conteinerDelete" id="{{{id}}}"></div>
+            <a href="/productos/editar/{{id}}" type="button" class="btn-warning">
+                <i class="fa-regular fa-pen-to-square"></i>
+            </a>
+
+        </div>
+        <div class="DatoBodyTable L actions secure" id="{{id}}secure">
+            <div class="titleAction">
+                ¿Desea eliminar el registro?
+            </div>
+            <div class="conteineroptionsAction">
+                <a href="productos/eliminar/{{id}}" class="optionsAction delete">si</a>
+                <div class="optionsAction notdelete" onclick="Contienrdelete({{id}})" >no</div>
+            </div>
 
 
 
-            <th scope="col" class="text-end">Aciones</th>
+        </div>
+        <div class="DatoBodyTable L">{{name}}</div>
+        <div class="DatoBodyTable M">{{marca}}</div>
+        <div class="DatoBodyTable M">{{category}}</div>
+        <div class="DatoBodyTable M">{{subcategory}}</div>
+        <div class="DatoBodyTable M">${{price}}</div>
+        <div class="DatoBodyTable S">{{{stock}}} u.</div>
+        <div class="DatoBodyTable L">
+            <img src="{{{img}}}">
+        </div>
+        <div class="DatoBodyTable XL">{{{description}}}</div>
 
-        </tr>
-    </thead>
-    <tbody>
-        {{#each producto}}
-        <tr>
-            <th scope="row">{{id}}</th>
-            <td>{{name}}</td>
-            <td>{{description}}</td>
-            <td>{{category}}</td>
-            <td>{{subcategory}}</td>
-            <td>{{price}}</td>
-            <td>{{{stock}}}</td>
-            <td>{{{ison}}}</td>
+    </div>
+    {{/each}}
 
-
-
-            <td class="text-end">
-                <a href="/inicio/eliminar/{{id}}" type="button" class="btn-danger">Eliminar</a>
-                <a href="/inicio/editar/{{id}}" type="button" class="btn-warning"> editar</a>
-
-
-            </td>
-
-        </tr>
-        {{/each}}
-
-
-    </tbody>
-</table>
+</div>

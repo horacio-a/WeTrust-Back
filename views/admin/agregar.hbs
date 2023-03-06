@@ -1,159 +1,271 @@
 <div class="conteiner-back">
-    <a class="back" href="/inicio">Back</a>
+    <a class="back" href="/productos">Back</a>
 </div>
-<form action="/inicio/agregar" method="POST" enctype="multipart/form-data">
-    <div class="new">
-        <div class="conteinet">
-            <label>name</label>
-            <input type="text" name="name">
+<form action="" enctype="multipart/form-data" method="post" class="formNewProduct">
 
-            <label>description</label>
-            <input type="text" name="description">
+    <div class="conteinertitleProduct">
+        Informacion General
+    </div>
+    <div class="conteinerNewProduct">
+        <div class="rowNewProduct">
+            <div class="columnNewProduct">
+                <label>Nombre de Producto</label>
+                <input type="text" name="name">
+            </div>
+            <div class="columnNewProduct">
 
-            <label>marca</label>
-            <input type="text" name="marca">
+                <label>Descripción </label>
+                <input type="text" name="description">
+            </div>
+            <div class="columnNewProduct">
+                <label>Marca</label>
+                <input type="text" name="marca">
+            </div>
 
-
-            <label>category</label>
-            <select name="category">
-                <option value="">Elegir una opcion</option>
-                <option value="clothing">clothing</option>
-                <option value="shoe">shoe</option>
-                <option value="accessories">accessories</option>
-            </select>
-
-            <label>subcategory</label>
-            <select name="subcategory">
-                <option value="">Elegir una opcion</option>
-
-                <option value="">-----accessories-------</option>
-                <option value="Anteojos">Anteojos</option>
-                <option value="Bolsos">Bolsos</option>
-                <option value="Ceniceros">Ceniceros</option>
-                <option value="Encendedores">Encendedores</option>
-                <option value="Gorros">Gorros/Gorras</option>
-                <option value="Juguetes">Juguetes</option>
-
-                <option value="">-----clothing-------</option>
-                <option value="Camperas">Camperas</option>
-                <option value="Hoodies">Hoodies</option>
-                <option value="Pantalones">Pantalones</option>
-                <option value="Remeras">Remeras</option>
-                <option value="Shorts">Shorts</option>
-                <option value="Underwear">Underwear</option>
-
-                <option value="">-----shoe-------</option>
-                <option value="sneakers">sneakers</option>
-                <option value="Slides">Slides</option>
-
-            </select>
-
-            <label>price </label>
-            <input type="number" name="price">
-
-            <label>stock</label>
-            <input type="number" name="stock">
-
-            <label>ison</label>
-            <input type="checkbox" name="ison">
-
-            <label>foto</label>
-            <input type="file" name="img" id="img">
         </div>
-        <div class="conteinerCheckBox">
-            <p>Shoe_size</p>
-            <div class="conteinet">
-
-                <label>3.5</label>
-                <input type="number" name="three_half" value="0">
-                <label>4.0</label>
-                <input type="number" name="four" value="0">
-                <label>4.5</label>
-                <input type="number" name="four_half" value="0">
-                <label>5.0</label>
-                <input type="number" name="five" value="0">
-                <label>5.5</label>
-                <input type="number" name="five_half" value="0">
-                <label>6.0</label>
-                <input type="number" name="six" value="0">
-
+        <div class="rowNewProduct">
+            <div class="columnNewProduct">
+                <label>Categoría</label>
+                <select name="category" onchange="ChangeCategory()">
+                    <option value=""></option>
+                    <option value="clothing">clothing</option>
+                    <option value="shoe">shoe</option>
+                    <option value="accessories">accessories</option>
+                </select>
             </div>
+            <div class="columnNewProduct">
+                <label>Subcategoría</label>
+                <select name="subcategory">
+                    <option value="">Elegir una opcion</option>
 
-            <div class="conteinet">
-                <label>6.5</label>
-                <input type="number" name="six_half" value="0">
-                <label>7.0</label>
-                <input type="number" name="seven" value="0">
-                <label>7.5</label>
-                <input type="number" name="seven_half" value="0">
-                <label>8.0</label>
-                <input type="number" name="eight" value="0">
-                <label>8.5</label>
-                <input type="number" name="eight_half" value="0">
-                <label>9.0</label>
-                <input type="number" name="nine" value="0">
+                    <option value="">-----accessories-------</option>
+                    <option value="Anteojos">Anteojos</option>
+                    <option value="Bolsos">Bolsos</option>
+                    <option value="Ceniceros">Ceniceros</option>
+                    <option value="Encendedores">Encendedores</option>
+                    <option value="Gorros">Gorros/Gorras</option>
+                    <option value="Juguetes">Juguetes</option>
 
+                    <option value="">-----clothing-------</option>
+                    <option value="Camperas">Camperas</option>
+                    <option value="Hoodies">Hoodies</option>
+                    <option value="Pantalones">Pantalones</option>
+                    <option value="Remeras">Remeras</option>
+                    <option value="Shorts">Shorts</option>
+                    <option value="Underwear">Underwear</option>
+
+                    <option value="">-----shoe-------</option>
+                    <option value="sneakers">sneakers</option>
+                    <option value="Slides">Slides</option>
+
+                </select>
             </div>
-            <div class="conteinet">
-                <label>9.5</label>
-                <input type="number" name="nine_half" value="0">
-                <label>10.0</label>
-                <input type="number" name="ten" value="0">
-                <label>10.5</label>
-                <input type="number" name="ten_half" value="0">
-                <label>11.0</label>
-                <input type="number" name="eleven" value="0">
-                <label>11.5</label>
-                <input type="number" name="eleven_half" value="0">
-                <label>12.0</label>
-                <input type="number" name="twelve" value="0">
-
-            </div>
-            <div class="conteinet">
-                <label>12.5</label>
-                <input type="number" name="twelve_half" value="0">
-                <label>13.0</label>
-                <input type="number" name="thirteen" value="0">
-                <label>13.5</label>
-                <input type="number" name="thirteen_half" value="0">
-                <label>14.0</label>
-                <input type="number" name="fourteen" value="0">
-                <label>14.5</label>
-                <input type="number" name="fourteen_half" value="0">
-                <label>15.0</label>
-                <input type="number" name="fifteen" value="0">
-
+            <div class="columnNewProduct">
+                <label>Precio</label>
+                <input type="number" name="price">
             </div>
         </div>
-
-        <div class="conteinerCheckBox">
-            <p>_size</p>
-
-            <div class="conteinet">
-                <label>XS</label>
-                <input type="number" name="XS" value="0">
-                <label>S</label>
-                <input type="number" name="S" value="0">
-                <label>M</label>
-                <input type="number" name="M" value="0">
-                <label>L</label>
-                <input type="number" name="L" value="0">
-                <label>XL</label>
-                <input type="number" name="XL" value="0">
-                <label>XXL</label>
-                <input type="number" name="XXL" value="0">
-                <label>XXXL</label>
-                <input type="number" name="XXXL" value="0">
+        <div class="rowNewProduct">
+            <div class="columnNewProduct">
+                <label>stock</label>
+                <input type="number" name="stock">
+            </div>
+            <div class="columnNewProduct">
+                <label>ison</label>
+                <input type="checkbox" name="ison">
+            </div>
+            <div class="columnNewProduct">
+                <label>foto</label>
+                <input type="file" name="img" id="img" class="fileSelect">
             </div>
         </div>
+    </div>
 
+    <div class="mainRopa desactive" id="mainRopa">
+        <div class="conteinertitleRopa">
+            Talles Ropa
+        </div>
+        <div class="conteinerNewRopa">
+            <div class="rowNewRopa">
+                <div class="columnNewRopa">
+                    <label>XS</label>
+                    <input type="number" name="XS" value="0">
+                </div>
+                <div class="columnNewRopa">
+                    <label>S</label>
+                    <input type="number" name="S" value="0">
+                </div>
+                <div class="columnNewRopa">
+                    <label>M</label>
+                    <input type="number" name="M" value="0">
+                </div>
+
+            </div>
+            <div class="rowNewRopa">
+                <div class="columnNewRopa">
+                    <label>L</label>
+                    <input type="number" name="L" value="0">
+                </div>
+                <div class="columnNewRopa">
+                    <label>XL</label>
+                    <input type="number" name="XL" value="0">
+                </div>
+                <div class="columnNewRopa">
+                    <label>XXL</label>
+                    <input type="number" name="XXL" value="0">
+                </div>
+                <div class="columnNewRopa">
+                    <label>XXXL</label>
+                    <input type="number" name="XXXL" value="0">
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="mainSneakers desactive" id="mainSneakers">
+
+        <div class="conteinertitleSneakers">
+            Talles Sneakers
+        </div>
+
+
+
+
+        <div class="conteinerNewSneakers">
+            <div class="rowNewSneakers">
+                <div class="columnNewSneakers">
+                    <label>3.5</label>
+                    <input type="number" name="three_half" value="0">
+                </div>
+                <div class="columnNewSneakers">
+                    <label>4.0</label>
+                    <input type="number" name="four" value="0">
+                </div>
+                <div class="columnNewSneakers">
+                    <label>4.5</label>
+                    <input type="number" name="four_half" value="0">
+                </div>
+                <div class="columnNewSneakers">
+                    <label>5.0</label>
+                    <input type="number" name="five" value="0">
+                </div>
+                <div class="columnNewSneakers">
+                    <label>5.5</label>
+                    <input type="number" name="five_half" value="0">
+                </div>
+                <div class="columnNewSneakers">
+                    <label>6.0</label>
+                    <input type="number" name="six" value="0">
+                </div>
+            </div>
+
+
+
+
+
+
+            <div class="rowNewSneakers">
+                <div class="columnNewSneakers">
+                    <label>6.5</label>
+                    <input type="number" name="six_half" value="0">
+                </div>
+                <div class="columnNewSneakers">
+                    <label>7.0</label>
+                    <input type="number" name="seven" value="0">
+                </div>
+                <div class="columnNewSneakers">
+                    <label>7.5</label>
+                    <input type="number" name="seven_half" value="0">
+                </div>
+                <div class="columnNewSneakers">
+                    <label>8.0</label>
+                    <input type="number" name="eight" value="0">
+                </div>
+                <div class="columnNewSneakers">
+                    <label>8.5</label>
+                    <input type="number" name="eight_half" value="0">
+                </div>
+                <div class="columnNewSneakers">
+                    <label>9.0</label>
+                    <input type="number" name="nine" value="0">
+                </div>
+            </div>
+
+
+
+
+
+            <div class="rowNewSneakers">
+                <div class="columnNewSneakers">
+                    <label>9.5</label>
+                    <input type="number" name="nine_half" value="0">
+                </div>
+                <div class="columnNewSneakers">
+                    <label>10.0</label>
+                    <input type="number" name="ten" value="0">
+                </div>
+                <div class="columnNewSneakers">
+
+                    <label>10.5</label>
+                    <input type="number" name="ten_half" value="0">
+                </div>
+                <div class="columnNewSneakers">
+                    <label>11.0</label>
+                    <input type="number" name="eleven" value="0">
+                </div>
+                <div class="columnNewSneakers">
+                    <label>11.5</label>
+                    <input type="number" name="eleven_half" value="0">
+                </div>
+                <div class="columnNewSneakers">
+                    <label>12.0</label>
+                    <input type="number" name="twelve" value="0">
+                </div>
+            </div>
+
+
+
+
+            <div class="rowNewSneakers">
+                <div class="columnNewSneakers">
+                    <label>12.5</label>
+                    <input type="number" name="twelve_half" value="0">
+                </div>
+                <div class="columnNewSneakers">
+                    <label>13.0</label>
+                    <input type="number" name="thirteen" value="0">
+                </div>
+                <div class="columnNewSneakers">
+                    <label>13.5</label>
+                    <input type="number" name="thirteen_half" value="0">
+                </div>
+                <div class="columnNewSneakers">
+
+                    <label>14.0</label>
+                    <input type="number" name="fourteen" value="0">
+                </div>
+                <div class="columnNewSneakers">
+
+                    <label>14.5</label>
+                    <input type="number" name="fourteen_half" value="0">
+                </div>
+                <div class="columnNewSneakers">
+
+                    <label>15.0</label>
+                    <input type="number" name="fifteen" value="0">
+                </div>
+            </div>
+
+        </div>
 
 
     </div>
     <div class="conteiner-button">
-        <button type="submit" class="new-button">Agregar</button>
+        <button type="submit" class="new-button">Crear</button>
     </div>
 </form>
+
 
 {{#if error }}
 <p>{{message}}</p>

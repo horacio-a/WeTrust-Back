@@ -8,7 +8,7 @@ var pool = require('./bd')
 
 
 async function GetProduct() {
-    var query = 'select * from productos';
+    var query = 'select * from productos order by id';
     var rows = await pool.query(query);
     return rows;
 };
@@ -35,6 +35,12 @@ async function getProductById(id) {
     var rows = await pool.query(query, [id]);
     return rows[0];
 };
+
+async function GetProductByBrand(marca){
+    var query = 'select * from productos where marca = ?';
+    var rows  = await pool.query(query, [marca]);
+    return rows
+}
 
 async function GetProductBycategory(category){
     var query = 'select * from productos where category = ?';
@@ -202,7 +208,8 @@ async function modificarClothingSizeById(obj, name) {
 
 
 module.exports = {
-    GetMarca, GetProduct, CreateProduct, getProductById, modificarProductById, deleteProductById,GetProductBycategory,GetProductBysubcategory,GetProductBySearch,
+    GetMarca,GetProductByBrand, GetProduct, CreateProduct, getProductById, modificarProductById, deleteProductById,GetProductBycategory,GetProductBysubcategory,GetProductBySearch,
     GetShoeSize, CreateShoeSize, getShoeSizeById, modificarShoeSizeById, deleteShoeSizeById,
     GetClothingSize, CreateClothingSize, getClothingSizeById, modificarClothingSizeById, deleteClothingSizeById
+
 }

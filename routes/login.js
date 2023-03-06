@@ -29,7 +29,7 @@ router.post('/', async (req, res, next) => {
             req.session.id_usuario = data.id;
             req.session.nombre = data.usuario;
 
-            res.redirect('/inicio')
+            res.redirect('/productos')
         } else {
             res.render('login/login', {
                 error: true
@@ -61,7 +61,7 @@ router.post('/agregar', async (req, res, next) => {
                 username
 
             });
-            res.redirect('/inicio')
+            res.redirect('/productos')
         } else {
             res.render('login/nuevousuario', {
                 error: true,

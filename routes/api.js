@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var cloudinary = require('cloudinary').v2;
 var productosModel = require('./../models/productos')
+var ventasModel = require('../models/Pedidos')
 
 router.get('/productos/token/:token', async function (req, res, next) {
     const token = req.params.token
@@ -92,7 +93,6 @@ router.get('/productos/destacados/token/:token', async function (req, res, next)
     if (token == process.env.api_key) {
         var data = []
         let producto = await productosModel.GetProduct()
-
         let clothing_size = await productosModel.GetClothingSize()
         let shoe_size = await productosModel.GetShoeSize()
         for (let i = 0; i < producto.length; i++) {
@@ -115,19 +115,25 @@ router.get('/productos/destacados/token/:token', async function (req, res, next)
                 for (let index = 0; index < shoe_size.length; index++) {
                     if (shoe_size[index].name == producto[i].name) {
                         const img = cloudinary.url(producto[i].img,)
-                        if (producto[i].name == 'Jordan 4 A Ma Maniére Violet Ore' || producto[i].name == 'Jordan 1 Retro Travis Scott Reverse Mocha' || producto[i].name == 'Jordan 1 Retro Low OG SP Travis Scott' || producto[i].name == 'Jordar 1 low  Fragment x Travis Scott') {
+                        if (producto[i].name == 'Jordan 4 A Ma Maniére Violet Ore' ||
+                            producto[i].name == 'Jordan 1 low Fragment x Travis Scott' ||
+                            producto[i].name == 'Jordan 1 Retro Travis Scott Reverse Mocha' ||
+                            producto[i].name == 'Jordan 1 Retro Low OG SP Travis Scott') {
+
                             data.push({
                                 produto: producto[i],
                                 img,
                                 talles: shoe_size[index]
                             })
                             break
+                        } else {
                         }
                     } else {
                     }
                 }
             }
         }
+
         return res.json(data)
     } else {
         return res.json({
@@ -301,6 +307,70 @@ router.get('/productos/subcategory/:subcategory/token/:token/', async function (
 
 });
 
+router.get('/productos/marca/:marca/token/:token/', async function (req, res, next) {
+    const token = req.params.token
+    const marca = req.params.marca
+
+
+    if (token == process.env.api_key) {
+        var data = []
+        let producto = await productosModel.GetProductByBrand(marca)
+
+        let clothing_size = await productosModel.GetClothingSize()
+        let shoe_size = await productosModel.GetShoeSize()
+
+        for (let i = 0; i < producto.length; i++) {
+            if (producto[i].category == 'clothing') {
+                for (let index = 0; index < clothing_size.length; index++) {
+                    if (clothing_size[index].name == producto[i].name) {
+                        const img = cloudinary.url(producto[i].img,)
+
+                        data.push({
+                            produto: producto[i],
+                            img,
+                            talles: clothing_size[index]
+                        })
+
+
+                    } else {
+                    }
+                }
+            }
+            if (producto[i].category == 'shoe') {
+                for (let index = 0; index < shoe_size.length; index++) {
+                    if (shoe_size[index].name == producto[i].name) {
+                        const img = cloudinary.url(producto[i].img,)
+
+                        data.push({
+                            produto: producto[i],
+                            img,
+                            talles: shoe_size[index]
+                        })
+                        break
+                    } else {
+                    }
+                }
+            }
+            if (producto[i].category == 'accessories') {
+
+                const img = cloudinary.url(producto[i].img,)
+
+                data.push({
+                    produto: producto[i],
+                    img,
+                })
+
+            }
+
+        }
+        return res.json(data)
+    } else {
+        return res.json({
+            error: 'error apikey'
+        })
+    }
+
+});
 
 
 router.get('/productos/category/:category/product/:product/token/:token/', async function (req, res, next) {
@@ -398,6 +468,136 @@ router.get('/marcas/token/:token', async function (req, res, next) {
             error: 'error apikey'
         })
     }
+
+});
+
+
+
+router.get('/dataset/quantity/token/:token', async function (req, res, next) {
+    function lastSevenDays() {
+        const today = new Date();
+        const lastSevenDays = [];
+
+        for (let i = 0; i < 7; i++) {
+            const previousDay = new Date(today);
+            previousDay.setDate(previousDay.getDate() - i);
+            var options = { weekday: 'long', year: 'numeric', month: 'long', day: '2-digit' }
+            var dia = previousDay.toLocaleDateString('es-mx', options).split(', ')[1];
+
+            lastSevenDays.push(dia);
+        }
+
+        return lastSevenDays;
+    };
+    var weekly = lastSevenDays().reverse()
+    var obj = { data: [], promedio: 0 }
+    var contador = 0
+    var allData = await ventasModel.getInfoOrder()
+    var inicioActividades = await ventasModel.inicioActividades()
+
+    function daysSinceJan5th2023({ day, month, year }) {
+        let today = new Date();
+        let formatDay = new Date(year, month, day);
+        let diffTime = today - formatDay;
+        return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    }
+
+    function getDateFromString(dateString) {
+        const [day, de, month, de2, year] = dateString.split(" ");
+        const fullMonth = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+        return {
+            day: parseInt(day),
+            month: fullMonth.indexOf(month),
+            year: parseInt(year)
+        };
+    }
+
+    var DiasDesdeInicio = daysSinceJan5th2023(getDateFromString(inicioActividades))
+    console.log()
+
+
+
+    for (let i = 0; i < weekly.length; i++) {
+        const e = weekly[i];
+        var data = await ventasModel.getInfoOrderBydate(e)
+        contador = contador + data.length
+        var a = { labels: e, datasets: data.length }
+        obj.data.push(a)
+    }
+
+    obj.promedio = allData.length / DiasDesdeInicio
+
+    return res.json(obj)
+
+});
+
+
+
+router.get('/dataset/money/token/:token', async function (req, res, next) {
+    function lastSevenDays() {
+        const today = new Date();
+        const lastSevenDays = [];
+
+        for (let i = 0; i < 7; i++) {
+            const previousDay = new Date(today);
+            previousDay.setDate(previousDay.getDate() - i);
+            var options = { weekday: 'long', year: 'numeric', month: 'long', day: '2-digit' }
+            var dia = previousDay.toLocaleDateString('es-mx', options).split(', ')[1];
+
+            lastSevenDays.push(dia);
+        }
+
+        return lastSevenDays;
+    };
+    var weekly = lastSevenDays().reverse()
+    var obj = { data: [], promedio: 0 }
+    var contador = 0
+    var allData = await ventasModel.getInfoOrder()
+
+    for (let x = 0; x < allData.length; x++) {
+        const element = allData[x];
+        contador = contador + element.total
+    }
+
+    for (let i = 0; i < weekly.length; i++) {
+        let totalmoney = 0
+        const e = weekly[i];
+        var data = await ventasModel.getInfoOrderBydate(e)
+
+        for (let inx = 0; inx < data.length; inx++) {
+            const element = data[inx];
+            totalmoney = element.total + totalmoney
+        }
+        var a = { labels: e, datasets: totalmoney }
+        obj.data.push(a)
+    }
+
+    var inicioActividades = await ventasModel.inicioActividades()
+
+    function daysSinceJan5th2023({ day, month, year }) {
+        let today = new Date();
+        let formatDay = new Date(year, month, day);
+        let diffTime = today - formatDay;
+        return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    }
+
+    function getDateFromString(dateString) {
+        const [day, de, month, de2, year] = dateString.split(" ");
+        const fullMonth = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+        return {
+            day: parseInt(day),
+            month: fullMonth.indexOf(month),
+            year: parseInt(year)
+        };
+    }
+
+    var DiasDesdeInicio = daysSinceJan5th2023(getDateFromString(inicioActividades))
+
+
+
+    obj.promedio = contador / DiasDesdeInicio
+
+    return res.json(obj)
 
 });
 

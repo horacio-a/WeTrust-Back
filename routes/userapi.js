@@ -34,7 +34,7 @@ router.get('/login/user/:user/password/:password/token/:token', async function (
             res.json([{ authenticated: true }, data])
 
         } else (
-            res.json([{ authenticated: false }])
+            res.json([{ authenticated: false}])
         )
 
 
@@ -69,8 +69,12 @@ router.get('/create/user/:user/password/:password/email/:email/token/:token', as
         if (userRepeated == true && mailRepeated == true) {
             if (user != null && email != null && password != null) {
                 if (user != '' && email != '' && password != '') {
-                    var data = { 'user': user, 'password': md5(password), 'email': email }
+                    var data = { 'user': user, 'password': md5(password), 'email': email, address: '', phone_number:'', 
+                    talle_shoe:'', talle_clothing:'', email:'',name:'',lastname:'',
+                    DNI:0, birth_date:''
+                }
                     UserModel.insertUsuario(data)
+
                     res.json('Cuenta creada')
                 } else {
                     res.json('Error al crear la cuenta, asegurese de completar todos los campos')
@@ -125,6 +129,38 @@ router.post('/edit/direccion/token/:token', async function (req, res, next){
 
 })
 
+router.get('/edit/password/token/:token', async function (req, res, next){
+    const token = req.params.token
+    var obj = JSON.parse(req.headers.obj)
+    var user = await UserModel.getUserByUsernameAndPassword(obj.info.user, obj.data.oldPass)
+    console.log(user)
+    if(obj.data.newPass1 === obj.data.newPass2){
+        if(user){
+            await UserModel.EditPassword(obj.data.newPass1, obj.info.user)
+            res.json({ alteration: true , status: '200'})
+        }else{
+            res.json({ alteration: false , status: '400', msj: 'Contraseña incorrecta'})
+        }
+    
+    }else{
+        res.json({ alteration: false , status: '400', msj: 'No coinciden las contraseñas'})
 
+    }
+
+
+
+
+})
+
+
+router.post('/edit/infopersonal/token/:token', async function (req, res, next){
+    const token = req.params.token
+    var obj = JSON.parse(req.body.obj)
+    if(token == process.env.api_key){
+        await UserModel.EditInfo(obj.data, obj.info.user)
+    }
+
+
+})
 
 module.exports = router;

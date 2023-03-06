@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <title>{{{title}}}</title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+
+<body>
+  <div class="menu" id="menu">
+    <div class="titleMenu">
+      <img src="/img/closeHeader.png" onclick="activeHeader()" alt="">
+    </div>
+    <div class="conteinerNavLink">
+      <a class="navLink" href="/productos">Productos</a>
+      <a class="navLink" href="/ventas">Ventas</a>
+      <a class="navLink" href="/usuarios">Usuarios</a>
+    </div>
+
+
+    <div class="usuarios">
+      <a href="/login/logout" class="logout">
+        Cerrar sesión
+      </a>
+      <a href="/login/agregar" class="register">
+        Nuevo Administrador
+      </a>
+    </div>
+  </div>
+  <header id="header">
+    <img src="/img/header.png" onclick="activeHeader()" alt="" />
+
+  </header>
+
+  <main>
+    {{{body}}}
+  </main>
+</body>
+{{{ script }}}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  
+  var num_order = document.getElementById('num_order')
+  
+  function goId(){
+    let url = 'ventas/num_order/' + num_order.value
+    window.location.replace(url) 
+  }
+
+
+  
+
+
+  var QuantityPromedio = [];
+  var Quantitydataset = [];
+  var Quantitylabels = []
+
+  QuantityData = {
+    labels: Quantitylabels,
+    datasets: [
+      {
+        label: "Ventas diarias",
+        fill: false,
+        backgroundColor: 'rgb(190, 99, 255, 0.25)',
+        borderColor: 'rgb(190, 99, 255)',
+        data: Quantitydataset,
+      },
+      {
+        label: "Promedio de ventas",
+        fill: true,
+        backgroundColor: 'rgba(255, 99, 132, 0.25)',
+        borderColor: 'rgb(255, 99, 132)',
+        data: QuantityPromedio,
+      }]
+  };
+
+  // Default chart defined with type: 'line'
+  var Quantityctx = document.getElementById('QuantityChart').getContext('2d');
+  var QuantityChart = new Chart(Quantityctx, {
+    type: 'line',
+    data: QuantityData,
+    options: { maintainAspectRatio: false, }
+  })
+
+  let url = 'http://localhost:3001/api/dataset/quantity/token/:token'
+  fetch(url)
+    .then(response => response.json())
+    .then(data => quantityMostrar(data))
+    .catch(error => console.log(error))
+
+
+  const quantityMostrar = (articulos) => {
+    console.log(articulos)
+    articulos.data.forEach(element => {
+      Quantitylabels.push(element.labels)
+      Quantitydataset.push(element.datasets)
+      QuantityPromedio.push(articulos.promedio)
+      QuantityChart.update()
+    });
+    console.log(myChart.data)
+  }
+
+
+
+  var MoneyPromedio = [];
+  var Moneydataset = [];
+  var Moneylabels = []
+
+  MoneyData = {
+    labels: Moneylabels,
+    datasets: [
+      {
+        label: "Ingresos diarios",
+        fill: false,
+        backgroundColor: 'rgb(190, 99, 255, 0.25)',
+        borderColor: 'rgb(190, 99, 255)',
+        data: Moneydataset,
+      },
+      {
+        label: "Promedio de ingresos",
+        fill: true,
+        backgroundColor: 'rgba(255, 99, 132, 0.25)',
+        borderColor: 'rgb(255, 99, 132)',
+        data: MoneyPromedio,
+      }]
+  };
+
+  // Default chart defined with type: 'line'
+  var Moneyctx = document.getElementById('MoneyChart').getContext('2d');
+  var MoneyChart = new Chart(Moneyctx, {
+    type: 'line',
+    data: MoneyData,
+    options: { maintainAspectRatio: false, }
+  })
+
+  let Moneyurl = 'http://localhost:3001/api/dataset/money/token/:token'
+  fetch(Moneyurl)
+    .then(response => response.json())
+    .then(data => MoneyMostrar(data))
+    .catch(error => console.log(error))
+
+
+  const MoneyMostrar = (articulos) => {
+    console.log(articulos)
+    articulos.data.forEach(element => {
+      Moneylabels.push(element.labels)
+      Moneydataset.push(element.datasets)
+      MoneyPromedio.push(articulos.promedio)
+      MoneyChart.update()
+    });
+    console.log(myChart.data)
+  }
+
+
+</script>
+<script>
+
+  var menu = document.getElementById('menu')
+
+  function activeHeader() {
+    menu.classList.toggle('active')
+  }
+
+</script>
+
+
+
+</html>

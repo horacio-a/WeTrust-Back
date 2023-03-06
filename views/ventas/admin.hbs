@@ -1,0 +1,108 @@
+<main class="graficos">
+    <div class="graficosPrincipal">
+        <div class="unitGraficoPrincipal">
+            <div class="grafico">
+                <canvas id="QuantityChart"></canvas>
+            </div>
+            <div class="grafico">
+                <canvas id="MoneyChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="graficosSecundarios">
+        <div class="unitGraficoSencundatio">
+            <div class="titleGraficoSencundatio">
+                Todas las ventas
+            </div>
+            <div class="mainGraficoSencundatio">
+                <div class="txtSencundario">
+                    {{{Alltotal}}}
+                </div>
+                <div class="txtSencundario">
+                    {{{allSales}}}
+                    <div class="caption">&nbsp;ventas</div>
+                </div>
+            </div>
+
+        </div>
+        <div class="unitGraficoSencundatio">
+            <div class="titleGraficoSencundatio">
+                Ventas semanales
+            </div>
+            <div class="mainGraficoSencundatio">
+                <div class="txtSencundario">
+                    {{{weeklyTotal}}}
+                </div>
+                <div class="txtSencundario">
+                    {{{weeklySales}}}
+                    <div class="caption">&nbsp;ventas</div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<div class="titlesearchPedidos">
+    Buscador de pedidos
+</div>
+<div class="searchPedidos">
+        <label for="">Numero de orden</label>
+        <input placeholder="100000" type="text" id="num_order"> 
+        <button onclick="goId()">Buscar</button>
+        <div>{{message}}</div>
+</div>
+
+
+<div class="titleProduct">
+    <div class="text">
+        Ventas
+    </div>
+    <div class="conteinerBtn">
+
+    </div>
+
+
+</div>
+
+<div class="conteinerTable">
+    <div class="headTable">
+        <div class="TitleHeadTable S">ID</div>
+        <div class="TitleHeadTable L">Acciones</div>
+        <div class="TitleHeadTable L">user</div>
+        <div class="TitleHeadTable M">num_order</div>
+        <div class="TitleHeadTable M">date</div>
+        <div class="TitleHeadTable M">state</div>
+        <div class="TitleHeadTable M">total</div>
+        <div class="TitleHeadTable S">qtyProduct</div>
+        <div class="TitleHeadTable S">num_guia</div>
+
+
+    </div>
+    {{#each orders}}
+
+    <div class="BodyTable">
+        <div class="DatoBodyTable S">{{id}}</div>
+        <div class="DatoBodyTable L">
+
+            <a href="/ventas/num_order/{{num_order}}" type="button" class="btn-warning">
+                <i class="fa-regular fa-pen-to-square"></i>
+            </a>
+
+        </div>
+        <div class="DatoBodyTable L">{{user}}</div>
+        <div class="DatoBodyTable M">{{num_order}}</div>
+        <div class="DatoBodyTable M">{{date}}</div>
+        <div class="DatoBodyTable M">{{state}}</div>
+        <div class="DatoBodyTable M">${{total}}</div>
+        <div class="DatoBodyTable S">{{{qtyProduct}}} u.</div>
+        <div class="DatoBodyTable M">{{num_guia}}</div>
+
+
+    </div>
+    {{/each}}
+
+</div>

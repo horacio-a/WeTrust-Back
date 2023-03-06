@@ -4,31 +4,89 @@
 <head>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
   <title>{{title}}</title>
   <link rel='stylesheet' href='/stylesheets/style.css' />
 </head>
 
 
 <body>
-  <header>
-    <a>botones</a>
-    <a>cards</a>
-    <a>headers</a>
-    <a>textos</a>
-    <div class="usuarios"> 
-    <a href="/login/logout" class="logout">
-      Logout
-    </a>
-    <a href="/login/agregar" class="register">
-      Crear Usuario
-    </a>
+  <div class="menu" id="menu">
+    <div class="titleMenu">
+      <img src="/img/closeHeader.png" onclick="activeHeader()" alt="">
     </div>
+    <div class="conteinerNavLink">
+      <a class="navLink" href="/productos">Productos</a>
+      <a class="navLink" href="/ventas">Ventas</a>
+      <a class="navLink" href="/usuarios">Usuarios</a>
+    </div>
+
+
+    <div class="usuarios">
+      <a href="/login/logout" class="logout">
+        Cerrar sesión
+      </a>
+      <a href="/login/agregar" class="register">
+        Nuevo Administrador
+      </a>
+    </div>
+  </div>
+  <header id="header">
+    <img src="/img/header.png" onclick="activeHeader()" alt="" />
+
   </header>
 
   <main>
-  {{{body}}}
+    {{{body}}}
   </main>
 </body>
+{{{ script }}}
+
+<script>
+
+  var menu = document.getElementById('menu')
+
+  function activeHeader() {
+    menu.classList.toggle('active')
+  }
+
+</script>
+
+<script>
+  function ChangeCategory() {
+    let Ropa = document.getElementById('mainRopa')
+    console.log(Ropa.classList[0])
+    let sneakers = document.getElementById('mainSneakers')
+    console.log(sneakers)
+
+    let data = event.target.value
+    console.log(data)
+    if (data == 'clothing') {
+      Ropa.classList = 'mainRopa active'
+      sneakers.classList = 'mainSneakers desactive'
+
+    } else if (data == 'shoe') {
+      Ropa.classList = 'mainRopa desactive '
+      sneakers.classList = 'mainSneakers active'
+    } else if (data == 'accessories') {
+      Ropa.classList = 'mainRopa desactive'
+      sneakers.classList = 'mainSneakers desactive'
+
+    }
+  }
+
+  function Contienrdelete(id) {
+    var options = document.getElementById(id + 'options')
+    var secure = document.getElementById(id + 'secure')
+
+    options.classList.toggle('active')
+    secure.classList.toggle('active')
+
+  }
+
+</script>
 
 </html>

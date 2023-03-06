@@ -32,6 +32,39 @@ async function checkEmail(email) {
 }
 
 
+async function checkPassword(password) {
+    try {
+        var query = 'select * from userweb where password = ?';
+        var rows = await pool.query(query, md5(password));
+        return rows[0];
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function EditPassword(password, user) {
+    try {
+        var query = 'update userweb set password = ? where user = ?';
+        var rows = await pool.query(query, [md5(password), user]);
+        return rows;
+    }
+    catch (error) {
+        throw error;
+    }
+}
+
+async function EditInfo(obj, user) {
+    try {
+        var query = 'update userweb set ? where user= ?';
+        var rows = await pool.query(query, [obj, user]);
+        return rows;
+    }
+    catch (error) {
+        throw error;
+    }
+}
+
+
 async function insertUsuario(obj) {
     try {
         var query = 'insert into userweb set ? ';
@@ -115,4 +148,4 @@ async function deleteShippingAddress(user) {
 
 
 
-module.exports = {deleteUsuario, EditShippingAddress, EditBillingAddress, getShippingAdrres,getBillingAddress, getUserByUsernameAndPassword, insertUsuario, checkUsername ,checkEmail}
+module.exports = {checkPassword,EditInfo, EditPassword, deleteUsuario, EditShippingAddress, EditBillingAddress, getShippingAdrres,getBillingAddress, getUserByUsernameAndPassword, insertUsuario, checkUsername ,checkEmail}
