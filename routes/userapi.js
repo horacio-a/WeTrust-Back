@@ -18,9 +18,7 @@ router.post('/login/token/:token', async function (req, res, next) {
                 const billingaddress = await UserModel.getBillingAddress(obj.user)
 
                 let data = {
-                    "id": usuarios.id,
                     "user": usuarios.user,
-                    "password": usuarios.password,
                     "address": usuarios.address,
                     "phone_number": usuarios.phone_number,
                     "talle_shoe": usuarios.talle_shoe,
@@ -253,13 +251,30 @@ router.get('/modify/user/:user/password/:password/email/:email/token/:token', as
 router.post('/edit/direccion/token/:token', async function (req, res, next) {
     const token = req.params.token
     var obj = JSON.parse(req.body.obj)
+
     if (token == process.env.api_key) {
-        if (obj.info.type == 'Billing') {
-            await UserModel.EditBillingAddress(obj.data, obj.info.user)
-        } else if (obj.info.type == 'Shipping') {
-            await UserModel.EditShippingAddress(obj.data, obj.info.user)
+
+        if(obj.info.type == 'Billing'){
+            let response = await UserModel.getBillingAddress(obj.info.user)
+            console.log(response)
+            if(response !== undefined){
+                await UserModel.EditBillingAddress(obj.data, obj.info.user)
+
+            }else{
+                obj.data.user = obj.info.user
+                await UserModel.CreateBillingAddress(obj.data)
+
+            }
+        }else if (obj.info.type == 'Shipping') {
+            let response = await UserModel.getShippingAdrres(obj.info.user)
+            if(response !== undefined){
+                await UserModel.EditShippingAddress(obj.data, obj.info.user)
+            }else{
+                await UserModel.CreateShippingAddress(obj.data)
+            }
+
+
         }
-        console.log(obj)
     }
 
 
@@ -312,6 +327,8 @@ router.get('/getemail/user/:user/token/:token', async function (req, res, next) 
 
 
 })
+
+
 
 
 

@@ -101,25 +101,6 @@ async function insertUsuario(obj) {
 
 };
 
-async function getShippingAdrres(username) {
-    try {
-        var query = 'select * from shippingaddress where user = ? limit 1';
-        var rows = await pool.query(query, [username]);
-        return rows[0];
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-async function getBillingAddress(username) {
-    try {
-        var query = 'select * from billingaddress where user = ? limit 1';
-        var rows = await pool.query(query, [username]);
-        return rows[0];
-    } catch (error) {
-        console.log(error);
-    }
-}
 
 
 
@@ -144,7 +125,7 @@ async function ConfimUser(email) {
     }
 }
 
-
+// ------------------ billing and shipping ---------------------------//
 
 
 
@@ -160,18 +141,6 @@ async function EditBillingAddress(obj, user) {
     }
 }
 
-async function ReloadauthCod(authCod, email) {
-    try {
-        var query = 'update userweb set authCod = ? where email = ?';
-        var rows = await pool.query(query, [authCod, email]);
-        return rows;
-    }
-    catch (error) {
-        throw error;
-    }
-}
-
-
 
 
 
@@ -185,6 +154,62 @@ async function EditShippingAddress(obj, user) {
         throw error;
     }
 }
+
+
+
+async function CreateShippingAddress(obj) {
+    try {
+        var query = 'INSERT INTO shippingaddress set ?';
+        var rows = await pool.query(query, [obj]);
+        return rows;
+    }
+    catch (error) {
+        throw error;
+    }
+}
+
+
+
+
+async function CreateBillingAddress(obj) {
+    try {
+        var query = 'insert into billingaddress set ?';
+        var rows = await pool.query(query, [obj]);
+        return rows;
+    }
+    catch (error) {
+        throw error;
+    }
+}
+
+
+
+async function getShippingAdrres(username) {
+    try {
+        var query = 'select * from shippingaddress where user = ? limit 1';
+        var rows = await pool.query(query, [username]);
+        return rows[0];
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function getBillingAddress(username) {
+    try {
+        var query = 'select * from billingaddress where user = ? limit 1';
+        var rows = await pool.query(query, [username]);
+        return rows[0];
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+
+
+// ------------------ billing and shipping ---------------------------//
+
+
 
 
 
@@ -210,8 +235,19 @@ async function deleteShippingAddress(user) {
 
 
 
+async function ReloadauthCod(authCod, email) {
+    try {
+        var query = 'update userweb set authCod = ? where email = ?';
+        var rows = await pool.query(query, [authCod, email]);
+        return rows;
+    }
+    catch (error) {
+        throw error;
+    }
+}
 
 
 
 
-module.exports = {ConfimUser, getEmail, getUser,  checkAuthCod, checkPassword,EditInfo,ReloadauthCod, EditPassword, deleteUsuario, EditShippingAddress, EditBillingAddress, getShippingAdrres,getBillingAddress, getUserByUsernameAndPassword, insertUsuario, checkUsername ,checkEmail}
+
+module.exports = {ConfimUser, CreateShippingAddress, CreateBillingAddress,  getEmail, getUser,  checkAuthCod, checkPassword,EditInfo,ReloadauthCod, EditPassword, deleteUsuario, EditShippingAddress, EditBillingAddress, getShippingAdrres,getBillingAddress, getUserByUsernameAndPassword, insertUsuario, checkUsername ,checkEmail}

@@ -12,7 +12,6 @@ router.get('/user/:user/token/:token', async function (req, res, next) {
 
         var resultado = []
         let orders = await PedidosModel.getInfoOrderByUser(user)
-        console.log(orders)
         for (var property in orders) {
             let num_order = orders[property].num_order
             let products = await PedidosModel.getProductOrderBynumorder(num_order)
