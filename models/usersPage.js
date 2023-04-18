@@ -21,6 +21,30 @@ async function checkUsername(username) {
     }
 }
 
+async function getEmail(username) {
+    try {
+        var query = 'select email from userweb where user = ?';
+        var rows = await pool.query(query, [username]);
+        return rows[0];
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+
+async function getUser(Email) {
+    try {
+        var query = 'select user from userweb where email = ?';
+        var rows = await pool.query(query, [Email]);
+        return rows[0];
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+
 async function checkEmail(email) {
     try {
         var query = 'select * from userweb where email = ?';
@@ -98,6 +122,33 @@ async function getBillingAddress(username) {
 }
 
 
+
+async function checkAuthCod(email, cod) {
+    try {
+        var query = 'select * from userweb where email = ? and authCod = ? limit 1';
+        var rows = await pool.query(query, [email, cod]);
+        return rows[0];
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function ConfimUser(email) {
+    try {
+        var query = 'update userweb set confirmation = 1 where email = ?';
+        var rows = await pool.query(query, [email]);
+        return rows;
+    }
+    catch (error) {
+        throw error;
+    }
+}
+
+
+
+
+
+
 async function EditBillingAddress(obj, user) {
     try {
         var query = 'update billingaddress set ? where user = ?';
@@ -108,6 +159,21 @@ async function EditBillingAddress(obj, user) {
         throw error;
     }
 }
+
+async function ReloadauthCod(authCod, email) {
+    try {
+        var query = 'update userweb set authCod = ? where email = ?';
+        var rows = await pool.query(query, [authCod, email]);
+        return rows;
+    }
+    catch (error) {
+        throw error;
+    }
+}
+
+
+
+
 
 async function EditShippingAddress(obj, user) {
     try {
@@ -148,4 +214,4 @@ async function deleteShippingAddress(user) {
 
 
 
-module.exports = {checkPassword,EditInfo, EditPassword, deleteUsuario, EditShippingAddress, EditBillingAddress, getShippingAdrres,getBillingAddress, getUserByUsernameAndPassword, insertUsuario, checkUsername ,checkEmail}
+module.exports = {ConfimUser, getEmail, getUser,  checkAuthCod, checkPassword,EditInfo,ReloadauthCod, EditPassword, deleteUsuario, EditShippingAddress, EditBillingAddress, getShippingAdrres,getBillingAddress, getUserByUsernameAndPassword, insertUsuario, checkUsername ,checkEmail}
