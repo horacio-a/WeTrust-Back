@@ -100,7 +100,10 @@ router.get('/productos/destacados/token/:token', async function (req, res, next)
                 for (let index = 0; index < clothing_size.length; index++) {
                     if (clothing_size[index].name == producto[i].name) {
                         const img = cloudinary.url(producto[i].img,)
-                        if (producto[i].name == 'FOG Essentials Hoodie Coral' || producto[i].name == 'Nike Big Swoosh Reversible Hemp White' || producto[i].name == 'Jordan x DJ Khaled Shorts Crimson Bliss' || producto[i].name == 'Palace x Umbro Classic Jersey Flint Stone') {
+                        if (producto[i].name == 'FOG Essentials Hoodie Coral' || 
+                        producto[i].name == 'Nike Big Swoosh Reversible Hemp White' || 
+                        producto[i].name == 'Jordan x DJ Khaled Shorts Crimson Bliss' ||
+                        producto[i].name == 'Palace x Umbro Classic Jersey Flint Stone') {
                             data.push({
                                 produto: producto[i],
                                 img,

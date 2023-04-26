@@ -207,6 +207,9 @@ async function getBillingAddress(username) {
 
 
 
+
+
+
 // ------------------ billing and shipping ---------------------------//
 
 
@@ -248,6 +251,50 @@ async function ReloadauthCod(authCod, email) {
 
 
 
+async function DiscardAuthCod(NewAuthCod, authCod) {
+    try {
+        var query = 'update userweb set authCod = ? where authCod = ?';
+        var rows = await pool.query(query, [NewAuthCod, authCod]);
+        return rows;
+    }
+    catch (error) {
+        throw error;
+    }
+}
 
 
-module.exports = {ConfimUser, CreateShippingAddress, CreateBillingAddress,  getEmail, getUser,  checkAuthCod, checkPassword,EditInfo,ReloadauthCod, EditPassword, deleteUsuario, EditShippingAddress, EditBillingAddress, getShippingAdrres,getBillingAddress, getUserByUsernameAndPassword, insertUsuario, checkUsername ,checkEmail}
+
+
+
+
+async function GetData(username) {
+    try {
+        var query = 'SELECT * FROM userweb WHERE user = ? ' ;
+        var query2 = 'SELECT * FROM billingaddress WHERE user = ? ' ;
+        var query3 = 'SELECT * FROM shippingaddress WHERE user = ? ' ;
+
+        var GeneralInfo = await pool.query(query, [username]);
+        var billingaddress = await pool.query(query2, [username]);
+        var shippingaddress = await pool.query(query3, [username]);
+
+        let response = { GeneralInfo: GeneralInfo[0], Billingaddress: billingaddress[0], Shippingaddress: shippingaddress[0] }
+        return response;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+async function forgetpassword(user, password, authCod){
+    try {
+        var query = 'update userweb SET `password` = ? where user = ? and authCod = ?';
+        var rows = await pool.query(query, [md5(password), user, authCod]);
+        return rows;
+    } catch (error) {
+        throw error
+    }
+}
+
+
+
+module.exports = {DiscardAuthCod, GetData,forgetpassword, ConfimUser, CreateShippingAddress, CreateBillingAddress, getEmail, getUser, checkAuthCod, checkPassword, EditInfo, ReloadauthCod, EditPassword, deleteUsuario, EditShippingAddress, EditBillingAddress, getShippingAdrres, getBillingAddress, getUserByUsernameAndPassword, insertUsuario, checkUsername, checkEmail }
