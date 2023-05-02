@@ -140,7 +140,7 @@
     options: { maintainAspectRatio: false, }
   })
 
-  let Moneyurl = 'http://localhost:3001/api/dataset/money/token/:token'
+  let Moneyurl = 'https://wethustapi.com.ar/api/dataset/money/token/:token'
   fetch(Moneyurl)
     .then(response => response.json())
     .then(data => MoneyMostrar(data))
