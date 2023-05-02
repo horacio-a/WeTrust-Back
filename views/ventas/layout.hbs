@@ -89,7 +89,7 @@
     options: { maintainAspectRatio: false, }
   })
 
-  let url = 'http://localhost:3001/api/dataset/quantity/token/:token'
+  let url = 'https://wethustapi.com.ar/api/dataset/quantity/token/:token'
   fetch(url)
     .then(response => response.json())
     .then(data => quantityMostrar(data))

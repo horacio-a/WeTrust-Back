@@ -238,34 +238,6 @@ async function deleteShippingAddress(user) {
 
 
 
-async function ReloadauthCod(authCod, email) {
-    try {
-        var query = 'update userweb set authCod = ? where email = ?';
-        var rows = await pool.query(query, [authCod, email]);
-        return rows;
-    }
-    catch (error) {
-        throw error;
-    }
-}
-
-
-
-async function DiscardAuthCod(NewAuthCod, authCod) {
-    try {
-        var query = 'update userweb set authCod = ? where authCod = ?';
-        var rows = await pool.query(query, [NewAuthCod, authCod]);
-        return rows;
-    }
-    catch (error) {
-        throw error;
-    }
-}
-
-
-
-
-
 
 async function GetData(username) {
     try {
@@ -294,6 +266,36 @@ async function forgetpassword(user, password, authCod){
         throw error
     }
 }
+
+
+
+async function ReloadauthCod(authCod, email) {
+    try {
+        var query = 'update userweb set authCod = ? where email = ?';
+        var rows = await pool.query(query, [authCod, email]);
+        return rows;
+    }
+    catch (error) {
+        throw error;
+    }
+}
+
+
+
+async function DiscardAuthCod(NewAuthCod, authCod) {
+    try {
+        var query = 'update userweb set authCod = ? where authCod = ?';
+        var rows = await pool.query(query, [NewAuthCod, authCod]);
+        return rows;
+    }
+    catch (error) {
+        throw error;
+    }
+}
+
+
+
+
 
 
 
